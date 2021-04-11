@@ -1,0 +1,227 @@
+{
+  //Starting position for the camera, as [ lat, lon, height ]
+  "startingPosition": [ ],
+
+  //A list of geocoordinates (2d or 3d)
+  //to do auto-travel to by using one of the number keys
+  //Can be an array with lat, lon, and optionally height
+  //can also be an object with "lat", "lon", and optionally "height"
+  "destinationPoints": [ ],
+
+  ///Terrain tiles
+  //A list of terrain tile providers that can be cycled through
+  //Default to 'web' configured for 'bing'
+  //Example of SQL-based:
+  //  {
+  //    "type": "sql",
+  //    "options": {
+  //      "databaseFile": "some\\database\\path.db"
+  //    }
+  //  }
+  "terrainTileProviders": "web",
+
+  ///Tile Attributes
+  //The type of tile attribute provider to use
+  "tileAttributesProviderType": "sql",
+  "tileAttributesSettings": {
+    //Settings for the SQL provider
+    "sql": {
+      //The database file to use
+      "databaseFile": null,
+      //The base LOD to use
+      "baseLOD": 12
+    }
+  },
+
+  ///Streaming Assets
+  "terrainStreaming":
+  {
+    //Directory to load asset bundles.
+    // Any file without the ".manifest" extension will be loaded
+    // as an asset bundle and instantiated into the scene.
+    // Can be single directory or list of directories
+    "dir": null
+  },
+
+  ///Elevations
+  "elevationProviderType": "bing",
+
+  //Settings for each elevation provider
+  "elevationProviderSettings": {
+    "file": {
+      //Directory where samples are stored
+      "samplesDir": null
+    },
+    "sql": {
+      //SQLite database containing elevations
+      "databaseFile": null,
+      //The base LOD to use when determining the 'highest quality' LOD
+      "baseLOD": 13,
+      //If true, the database contains downsamples of the baseLOD
+      //and will load those accordingly
+      "useDownsamples": true,
+      //If set, create a second elevation provider to fallback on
+      "fallback": null
+    },
+    "bing": {
+      //The bing API key to use
+      "apiKey": ""
+    }
+  },
+
+  //The type of tile mesh provider to use (default "elevation")
+  "tileMeshProviderType": "elevation",
+
+  "tileMeshProviderSettings": {
+    //Uses the elevation provider to generate tile meshes
+    "elevation": {
+      //The number of 'samples' per tile.
+      //More samples implies more accurate geometry but
+      //increases time taken to process each tile.
+      //Note: Actual number of vertices generated is numSamples * numSamples
+      "numSamples": 20,
+      //The maximum number of requests that can be processed simultaneously
+      //This increases memory usage depending on the number of samples used
+      //Defaults to processor count
+      "maxParallelRequests": null,
+      //The height of each 'skirt' around the generated tiles
+      "skirtHeight": 1000,
+      //The elevation offset to subtract from vertices considered "water"
+      "waterDepth": 0
+    },
+    //No terrain tiles
+    "empty": { },
+    //Stores generated meshes in database in order to cache results
+    "sqlCache": {
+      //The database file to save to
+      "databaseFile": null,
+      //The provider type to use as a data source
+      //Can be any of the supported tile mesh provider types
+      "baseProviderType": "elevation",
+      //If true, will read from the database without writing
+      //new meshes into it
+      //meshes into it
+      "readOnly": false
+    },
+    //Runs a mesh simplification algorithm on
+    //the constructed mesh
+    "decimator": {
+      //The provider type to use as a data source
+      //Can be any of the supported tile mesh provider types
+      "baseProviderType": "elevation",
+      //agressiveness of this algorithm
+      //Higher number equals higher quality, but more expensive to run.
+      "aggressiveness": 7,
+      //Higher number is more expensive but can bring you closer to your target quality.
+      //Sometimes a lower maximum count might be desired in order to lower the performance cost.
+      "maxIterations": 100,
+      //The maximum vertex count.
+      //May not be achievable but will quit early if under this number of vertices
+      "maxVertexCount": null,
+      //The target number of triangles
+      //May not be achievable but will quit early if target is achieved
+      "targetTriangles": null
+    }
+  },
+
+  ///Locations
+  //SQLite database containing locations data
+  "locationsDatabaseFile": null,
+
+  ///Features
+  //The feature provider can be "osm" (default "osm")
+  "featureProviderType": "osm",
+  "featureProviderSettings": {
+    "osm": {
+      //The directory where the feature tiles are
+      "featureTileDir": null,
+      //The LOD of the feature tiles
+      "lod": 16
+    },
+    "postgis": {
+      "host": "localhost",
+      "port": 5432,
+      "user": "postgres",
+      "password": null,
+      "database": "osm"
+    }
+  },
+
+  ///Tile chunker settings
+  "tileChunkerSettings": {
+    //The number of tiles that will be kept loaded in-cache at a time
+    //Cached tiles don't have to be re-queried and are simply reactivated
+    "numTiles": 4095,
+    //The number of tiles to preload (load at startup)
+    "preloadPercent": 0,
+    "disablePhysics": false,
+    //The number max number of tiles that will be loaded concurrently
+    //Defaults to processor count
+    "maxConcurrentLoad": null,
+    //The LOD that features will be queried at
+    "featureLoadLOD": 15,
+    //The maximum LOD to create tiles at
+    "maxTileLOD": 18,
+    //The maximum lod to use for physics
+    "maxPhysicsLOD": 13,
+    //The maximum amount of time in milliseconds spend loading tiles each frame
+    //Increasing this number lowers frame-rate in high-load scenarious but
+    //decreases latency for loading tiles
+    "loadFrameBudget": 3,
+    //The size of each texture atlas, in tiles
+    //The actual pixel size will be (size*size*256)
+    "atlasTileSize": 1,
+	//Set to true to compress textures during runtime
+	//Compressing textures significantly reduces RAM usage but can cause regular frame drops
+	"compressTextures": false
+  },
+
+  //The distance from the earth where the skybox will
+  //switch from sky to galaxy. They will 'fade' into
+  //each-other gradually and switch at this distance
+  "skyboxSwitchoutDistance": 20000,
+
+  //The density of fog while in atmosphere
+  "fogDensity": 1.2e-06,
+
+  ///Near/Far plane switchouts
+  //Sets distance bands for the camera to switch out
+  //near and far planes.
+  //The maximum height allowed is set by the furthest entry
+  //This is used to avoid graphical floating point jitter when
+  //the far plane is set too high relative to the near-plane
+  "nearFarPlaneSwitchouts": [
+    {
+      "distance": 2000,
+      "near": 0.1,
+      "far": 300000
+    },
+    {
+      "distance": 5000,
+      "near": 0.2,
+      "far": 500000
+    },
+    {
+      "distance": 50000,
+      "near": 0.3,
+      "far": 800000
+    },
+    {
+      "distance": 40000000,
+      "near": 5,
+      "far": 50000000
+    },
+    {
+      "distance": 60000000,
+      "near": 10,
+      "far": 70000000
+    }
+  ],
+
+  //The directory to store screenshots
+  "screenshotsDir": null,
+
+  //The size (in meters) of the floating origin 'grid'
+  //Smaller means more frequent origin updates
+  "gridSize": 4000
+}

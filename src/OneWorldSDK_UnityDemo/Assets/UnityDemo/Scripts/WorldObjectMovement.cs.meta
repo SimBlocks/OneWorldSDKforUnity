@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: bb919083716b2684ab42d8eabe13b4e8
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - GlobeViewerContext: {fileID: 11400000, guid: b92c2b09e1354234199ef50b75bf17c8,
+      type: 2}
+  - EntitiesParent: {instanceID: 0}
+  executionOrder: 300
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

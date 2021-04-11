@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 06854607a4cef5546babcefbf54bacea
+timeCreated: 1543957602
+licenseType: Free
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - GlobeContext: {fileID: 11400000, guid: cb4659fbcb27a1d45b357eff66054f06, type: 2}
+  - TileContext: {fileID: 11400000, guid: f014af0f777bc0542acfe95080fc59b1, type: 2}
+  - BeginLoading: {fileID: 11400000, guid: 89471378a0959bf4c94735aa6a3c7cb1, type: 2}
+  - FinishedLoading: {fileID: 11400000, guid: e97b49a9115a7ad4fbd8f2f46b640a75, type: 2}
+  - Shutdown: {fileID: 11400000, guid: 5f92b77090445a9418a5e7b1ccfa1fde, type: 2}
+  - DefaultConfig: {fileID: 11400000, guid: 9e0e6a532f5654946ba001aaac9d6cd5, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

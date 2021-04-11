@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31019.35
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneWorldSDK", "owsdk\OneWorldSDK.csproj", "{6B88A635-B253-4F35-8DC6-93B9F0F2D388}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Math", "ManagedMathLib\Math.csproj", "{E75EBD17-EDC7-44A7-9128-B64845446B94}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6B88A635-B253-4F35-8DC6-93B9F0F2D388}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B88A635-B253-4F35-8DC6-93B9F0F2D388}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B88A635-B253-4F35-8DC6-93B9F0F2D388}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B88A635-B253-4F35-8DC6-93B9F0F2D388}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E75EBD17-EDC7-44A7-9128-B64845446B94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E75EBD17-EDC7-44A7-9128-B64845446B94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E75EBD17-EDC7-44A7-9128-B64845446B94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E75EBD17-EDC7-44A7-9128-B64845446B94}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F1BB049B-DF7B-4CB2-8E37-41AEFA7EDFDA}
+	EndGlobalSection
+EndGlobal

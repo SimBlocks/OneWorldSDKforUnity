@@ -1,0 +1,15 @@
+/bin/
+/data/app/
+/data/*.local.config.json
+/out/
+/src/OneWorldSDK_UnityDemo/Assets/Plugins/**/*.dll
+/src/OneWorldSDK_UnityDemo/Assets/Plugins/**/*.pdb
+/src/OneWorldSDK_UnityDemo/Assets/Plugins/**/*.mdb
+/src/Libraries/.vs/OneWorldSDK/v16/*.suo
+/src/Libraries/ManagedMathLib/obj
+/src/Libraries/owsdk/.vs/OneWorldSDK/v16/*.suo
+/src/packages
+/src/Libraries/packages
+/src/Libraries/owsdk/obj
+/src/OneWorldSDK_UnityDemo/Packages/packages-lock.json
+/src/OneWorldSDK_UnityDemo/Packages

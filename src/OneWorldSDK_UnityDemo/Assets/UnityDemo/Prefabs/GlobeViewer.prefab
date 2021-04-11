@@ -1,0 +1,137 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1083605581637650
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4534463720077848}
+  - component: {fileID: 114697218931649924}
+  - component: {fileID: 7343165697547326266}
+  - component: {fileID: 7506896422144079050}
+  - component: {fileID: 4170355202714116073}
+  m_Layer: 0
+  m_Name: GlobeViewer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4534463720077848
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1083605581637650}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4902573549402143037}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114697218931649924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1083605581637650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7765f1195f11ae4faa6fdf604292e5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobeViewerContext: {fileID: 11400000, guid: b92c2b09e1354234199ef50b75bf17c8, type: 2}
+  TestPatternTexture: {fileID: 2800000, guid: 9858183aab73bed47ad398675da2abde, type: 3}
+  AppName: GlobeViewer
+  CompanyName: SimBlocks
+  ProductName: GlobeViewer
+  GridOrigin: {fileID: 4170355202714116073}
+--- !u!114 &7343165697547326266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1083605581637650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3c7eee2acf2c224a82ee9dc9bc42d0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobeViewerContext: {fileID: 11400000, guid: b92c2b09e1354234199ef50b75bf17c8, type: 2}
+  TileShader: {fileID: 4800000, guid: a8ae6ea09d170164ea7798b262311a33, type: 3}
+  TileMaterial: {fileID: 0}
+  WireframeMaterial: {fileID: 2100000, guid: b6d9fb9c532c9f6458962d70d1eef880, type: 2}
+--- !u!114 &7506896422144079050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1083605581637650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a7dc508b1aaae146838e98d015397ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobeContext: {fileID: 11400000, guid: a6ce9c89a7d0a1441b5b13cafedeb2c5, type: 2}
+  TileContext: {fileID: 11400000, guid: f014af0f777bc0542acfe95080fc59b1, type: 2}
+  BuildingsMaterial: {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  SelectedMaterial: {fileID: 2100000, guid: eababfc576d05544dbb1a519b4244ed1, type: 2}
+  ForestPrefabs:
+  - Prefab: {fileID: 1313205744350940, guid: a69446b2aead5ec4f9398e1bbad90fc6, type: 3}
+    Bias: 10
+  - Prefab: {fileID: 1069529803724572, guid: bbb85e3d77350254dba2fba2ba0a523c, type: 3}
+    Bias: 3
+  - Prefab: {fileID: 1313205744350940, guid: a69446b2aead5ec4f9398e1bbad90fc6, type: 3}
+    Bias: 5
+  - Prefab: {fileID: 1248686765794184, guid: e8ef5d341e0697c458504e407584009e, type: 3}
+    Bias: 2
+  - Prefab: {fileID: 1918133670272312, guid: 6e0fa5b2281fb2a4298db0fcfbc2f118, type: 3}
+    Bias: 1
+  - Prefab: {fileID: 1090353433585028, guid: 7e0c3ce1e39ddb544a83793fbff5f376, type: 3}
+    Bias: 3
+  - Prefab: {fileID: 1533446776337338, guid: d9e63269009ba274d9543b2f084af55e, type: 3}
+    Bias: 2
+  WetlandPrefabs: []
+--- !u!114 &4170355202714116073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1083605581637650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd15d85061ee7484481c24763ee9cb41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobeContext: {fileID: 11400000, guid: a6ce9c89a7d0a1441b5b13cafedeb2c5, type: 2}
+  Origin: {fileID: 0}
+  GridSize: 4000
+--- !u!1001 &4901747652104410251
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 4534463720077848}
+    m_Modifications:
+    - target: {fileID: 4487312291327414, guid: 947d539c0dd9241498c07367bad263e2, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 947d539c0dd9241498c07367bad263e2, type: 3}
+--- !u!4 &4902573549402143037 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4487312291327414, guid: 947d539c0dd9241498c07367bad263e2,
+    type: 3}
+  m_PrefabInstance: {fileID: 4901747652104410251}
+  m_PrefabAsset: {fileID: 0}

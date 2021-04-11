@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 01f74c0174218db4ba922350c7a12265
+timeCreated: 1543956509
+licenseType: Free
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - GlobeViewerContext: {fileID: 11400000, guid: b92c2b09e1354234199ef50b75bf17c8,
+      type: 2}
+  - BBoxMaterial: {fileID: 2100000, guid: 15ea609158b007144ad424cde43ca0b0, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

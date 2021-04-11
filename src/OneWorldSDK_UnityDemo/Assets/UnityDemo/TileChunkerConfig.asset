@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d131e1004b25fd746afaa84c14480b81, type: 3}
+  m_Name: TileChunkerConfig
+  m_EditorClassIdentifier: 
+  MaxNumTiles: 4095
+  PreloadPercent: 5
+  DisablePhysics: 0
+  MaxConcurrentLoad: 8
+  MaxTileLOD: 20
+  MaxPhysicsLOD: 13
+  LoadFrameBudget: 5
+  AtlasTileSize: 4
+  ResolutionDistanceBias: 1

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 6db09bd85c2e2d049b98f8f4e498c367
+timeCreated: 1543956369
+licenseType: Free
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - GlobeViewerContext: {fileID: 11400000, guid: b92c2b09e1354234199ef50b75bf17c8,
+      type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
