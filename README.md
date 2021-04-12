@@ -10,37 +10,24 @@ While connected to Bing Maps with an API key, elevation data is streamed on-the-
 ![One World SDK - Mountains](/docs/images/OneWorldSDK_Mountains.PNG)
 
 ## Goals
-We believe in leveraging the massive Unity developer base to build a realistic, whole-earth, and interactive world. One World. Free and Open-Source.
+We believe in leveraging the massive Unity developer base to build a realistic, whole-earth, and interactive world. **One World**. Free and Open-Source.
 
 The world should be available on the devices you use from desktop to mobile devices. The Unity real-time 3D engine also has first-class support for Virtual Reality, Augmented Reality, and Mixed-Reality headsets to create immersive and highly compelling experiences.
 
-Help us on this journey. If you have ideas to contribute to this project, join us. 
+Help us on this journey. If you have ideas to contribute to this project, **join us**. 
 
 ## Developer Setup
 
-The `src/OneWorldSDK_UnityDemo/` directory is a Unity Project that houses all of the One World SDK Unity Demo code.
+C# middleware libraries can be found in the [src/Libraries/](src/Libraries/) directory.
+The [src/OneWorldSDK_UnityDemo/](src/OneWorldSDK_UnityDemo/) directory is a Unity Project with additional demo integration scripts in [src/OneWorldSDK_UnityDemo/Assets/Scripts/](src/OneWorldSDK_UnityDemo/Assets/Scripts/).
 
-Specifically, code is kept in the [scripts subdirectory](src/OneWorldSDK_UnityDemo/Assets/Scripts/)
-in order to keep it separate from 3rdparty assets and scripts.
-
-1. Build src/Libraries/OneWorldSDK.sln using Visual Studio 2019
-2. Then run copy_DLLs.bat
-3. Open the src\OneWorldSDK_UnityDemo project in Unity (The default Unity version is 2019.4.14f1)
-
-## Running the Demo
-
-The One World SDK Unity Demo can run directly from the Unity editor by opening src/OneWorldSDK_UnityDemo/. You need to press the Play button in the Unity toolbar to start the demo.
-
-The demo can also be built as a standalone executable through the Unity editor by selecting:
-1. **File..**
-2. **Build Settings...**
-3. **Build**
-
-Make sure to output this executable to the [bin/OneWorldSDK_UnityDemo/](bin/OneWorldSDK_UnityDemo/) directory (you will have to create it).
-The final executable should be `bin/OneWorldSDK_UnityDemo/OneWorldSDK_UnityDemo.exe`
+1. Open [src/Libraries/OneWorldSDK.sln](src/Libraries/OneWorldSDK.sln) using Visual Studio 2019
+2. Build the solution
+3. Then run copy_DLLs.bat
+4. Open the src\OneWorldSDK_UnityDemo project in Unity (The default Unity version is 2019.4.14f1)
 
 ## Camera Control
-* C - Increase altitude (this happens slowly, so hold the key for about 10 seconds).
+* C - Increase altitude
 * X - Decrease altitude
 * R - Pitch up
 * F - Pitch down
@@ -51,7 +38,6 @@ The final executable should be `bin/OneWorldSDK_UnityDemo/OneWorldSDK_UnityDemo.
 * W - Forward
 * S - Backward
 * Space - reset view to be looking down at the globe
-
 
 ## Configuration
 
