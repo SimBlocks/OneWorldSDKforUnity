@@ -75,8 +75,10 @@ By default, no elevation will be present. Elevation can be easily supported usin
 ```
 
 ## Videos
-Several videos created using the One World SDK for Unity can be found on YouTube.
+Several videos created using the One World SDK for Unity can be found on our [YouTube](https://www.youtube.com/c/SimBlocksio) channel.
 [![One World SDK for Unity on YouTube](/docs/images/OneWorldSDK_YouTube.PNG)](https://www.youtube.com/playlist?list=PLj4ixw_Qvkbc7ujRJX40OT1G7cLq2Wc31)
+  
+Please **subscribe** to our channel and give us a **like** if you would like to see more of this content.
 
 ## License
 The source code in this repository is licensed under the MIT License. See the [LICENSE](LICENSE) text file for full terms.
