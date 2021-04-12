@@ -68,6 +68,10 @@ Several videos created using the One World SDK for Unity can be found on our [Yo
   
 Please **subscribe** to our channel and give us a **like** if you would like to see more of this content.
 
+## Professional Services
+Do you need to augment your software development team, or are you looking for an experienced team to develop a solution that leverages the One World SDK for Unity?
+For custom development projects, please contact sales@simblocks.io  
+
 ## License
 The source code in this repository is licensed under the MIT License. See the [LICENSE](LICENSE) text file for full terms.
 
