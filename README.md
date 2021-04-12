@@ -21,10 +21,12 @@ Help us on this journey. If you have ideas to contribute to this project, **join
 C# middleware libraries can be found in the [src/Libraries/](src/Libraries/) directory.
 The [src/OneWorldSDK_UnityDemo/](src/OneWorldSDK_UnityDemo/) directory is a Unity Project with additional demo integration scripts in [src/OneWorldSDK_UnityDemo/Assets/Scripts/](src/OneWorldSDK_UnityDemo/Assets/Scripts/).
 
-1. Open [src/Libraries/OneWorldSDK.sln](src/Libraries/OneWorldSDK.sln) using Visual Studio 2019
-2. Build the solution
-3. Then run copy_DLLs.bat
-4. Open the src\OneWorldSDK_UnityDemo project in Unity (The default Unity version is 2019.4.14f1)
+1. Open [src/Libraries/OneWorldSDK.sln](src/Libraries/OneWorldSDK.sln) using Visual Studio 2019.
+2. Build the solution.
+3. Then run copy_DLLs.bat.
+4. Open the [src\OneWorldSDK_UnityDemo](src/OneWorldSDK_UnityDemo/) project in Unity. (The default Unity version is 2019.4.14f1)
+5. In Unity, navigate to Assets->Scenes and double-click on the OneWorldDemo.unity scene.
+6. Press the Play button.
 
 ## Camera Control
 * C - Increase altitude
