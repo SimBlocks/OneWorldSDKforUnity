@@ -78,5 +78,6 @@ By default, no elevation will be present. Elevation can be easily supported usin
 Several videos created using the One World SDK for Unity can be found on YouTube.
 [![One World SDK for Unity on YouTube](/docs/images/OneWorldSDK_YouTube.PNG)](https://www.youtube.com/playlist?list=PLj4ixw_Qvkbc7ujRJX40OT1G7cLq2Wc31)
 
-
+## License
+The source code in this repository is licensed under the MIT License. See the [LICENSE](LICENSE) text file for full terms.
 
