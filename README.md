@@ -43,11 +43,7 @@ The [src/OneWorldSDK_UnityDemo/](src/OneWorldSDK_UnityDemo/) directory is a Unit
 
 ## Configuration
 
-The [One World SDK Unity Demo configuration file](data/GlobeViewer.config.json) that is
-serves as a reference and shouldn't be modified unless you're modifying the available settings.  
-Instead, create new file `data/GlobeViewer.local.config.json`. This will be where you store your local configuration settings.
-
-Before/After [creating the local configuration file](#configuration), you should be able to start running and see imagery from bing.
+The [One World SDK Unity Demo configuration file](data/OneWorldSDK_Viewer.config.json) serves as a reference, and we recommend creating a local copy `data/OneWorldSDK_Viewer.local.config.json` for your local configuration settings to avoid accidentally committing local settings or your private API key.
 
 ### Elevation
 
