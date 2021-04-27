@@ -47,7 +47,7 @@ namespace sbio.OneWorldSDKViewer
       if (cam != null)
       {
         //Sync our near and far planes with the main camera
-        m_Camera.fieldOfView = cam.fieldOfView;
+        m_Camera.projectionMatrix = cam.projectionMatrix;
         m_Camera.nearClipPlane = cam.nearClipPlane;
         m_Camera.farClipPlane = cam.farClipPlane;
 

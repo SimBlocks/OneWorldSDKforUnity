@@ -106,7 +106,7 @@ namespace sbio.OneWorldSDKViewer
 
     private void OnCameraChanged(Camera newCamera)
     {
-      m_TileChunker.Camera = OneWorldSDKViewerContext.Camera;
+      m_TileChunker.Camera = newCamera;
     }
 
     private void OnImageryProviderChanged(ITerrainTileProvider newProvider)

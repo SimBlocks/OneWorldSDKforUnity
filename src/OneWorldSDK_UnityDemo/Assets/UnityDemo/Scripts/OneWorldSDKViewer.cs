@@ -36,7 +36,7 @@ namespace sbio.OneWorldSDKViewer
     public string AppName = "OneWorldSDK_Viewer";
     public string CompanyName = "SimBlocks LLC";
 
-    public string ProductName = "OneWorldSDK Viewer";
+    public string ProductName = "OneWorldSDK_Viewer";
 
     private void Awake()
     {
@@ -249,7 +249,7 @@ namespace sbio.OneWorldSDKViewer
         //Features
         var featureProviderType = m_Config.GetString("featureProviderType", "osm");
         switch (featureProviderType.ToLowerInvariant())
-        { 
+        {
           case "osm":
           default:
           {
@@ -365,7 +365,7 @@ namespace sbio.OneWorldSDKViewer
 
       Debug.Log("after first switch");
       switch (typeName.ToLowerInvariant())
-      { 
+      {
         case "sql":
         {
           Debug.Log("SQL");

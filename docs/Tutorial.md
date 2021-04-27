@@ -157,6 +157,16 @@ Transform unityTransform;
 unityTransform.rotation = ellipsoid.NEDRotation(wgs84Coordinate);
 ```
 
+## Building the Executable
 
+When you build the game, you will need to make sure that the One World SDK Viewer is in a directory in which it can locate the config file. 
 
+When the executable is run, it will look for the config file in the location "../../data/OneWorldSDK\_Viewer.config.json". 
 
+So, for example, if you have your exe built here:
+
+"<root>\build\OneWorldSDK\_Viewer\OneWorldSDK\_Viewer.exe"
+
+the config file must be in the location:
+
+"<root>\data\OneWorldSDK\_Viewer.config.json"

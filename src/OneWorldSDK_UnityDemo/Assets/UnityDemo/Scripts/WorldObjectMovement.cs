@@ -511,11 +511,14 @@ namespace sbio.OneWorldSDKViewer
           {
             if (view.CameraID == DesiredView)
             {
+              if (view.EntityGameObject != null)
+              {
               m_RTOTransform.RTOPositionf = view.EntityGameObject.transform.position + view.EntityGameObject.transform.rotation * view.Offset;
               GeoPos = Ellipsoid.ToGeodetic3d(m_RTOTransform.GlobalPosition);
 							transform.rotation = view.EntityGameObject.transform.rotation * view.Rotation;
             }
           }
+        }
         }
           break;
         default:
