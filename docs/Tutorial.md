@@ -103,11 +103,16 @@ The section on floating origin is required reading.
 
 There are various ways to position an object in the OWSDK.
 
-## Geocentric Coordinates
+### Geocentric Coordinates
 If you have the Geocentric coordinates of an object you wish to place in the world, then placing it is a matter of calculating its Unity position using the WorldOrigin of the IRTOContext. For stationary objects, the MonoBehaviour GeocentricTransform may be used.
 
-## WGS84 Coordinates
+### WGS84 Coordinates
 When using lat, lon, the process is the same, but additionally requires using the Ellipsoid in use to calculate the Geocentric position. A MonoBehaviour GeoTransform allows setting object position using Geodetic3d coordinates directly. Additionally, GeoTransform will calculate the appropriate Up orientation to establish a local-to-the-ground Up direction for the GameObject.
+
+![GeoTransform Settings](images/GeotransformSettings.png)
+![GameObject On Globe](images/PlacingTeapotInWorld.png)
+
+The settings for the GeoTransform MonoBehaviour are shown above. Don't forget to set the WorldContext on the GeoTransform!
 
 To transform from a WGS84 coordinate (expressed as lat,lon,elevation):
 
@@ -170,3 +175,7 @@ So, for example, if you have your exe built here:
 the config file must be in the location:
 
 "<root>\data\OneWorldSDK\_Viewer.config.json"
+
+## Using a Controller to Move the Camera
+
+We use Unity's [Input Manager](https://docs.unity3d.com/Manual/class-InputManager.html) to control the globe which makes it easy for you to make your own controls. It can be found by going to Edit -> Project Settings... The axis labled *Horizontal* is used for moving moving left and right (increasing or decreasing longitude). You can modify the Positive/Negative buttons. Similarly, the *UpDown* axis is used for decreasing/increasing altitude. The source code that manipulates camera movement is [src/OneWorldSDK_UnityDemo/Assets/UnityDemo/Scripts/WorldObjectMovement.cs](../src/OneWorldSDK_UnityDemo/Assets/UnityDemo/Scripts/WorldObjectMovement.cs).
