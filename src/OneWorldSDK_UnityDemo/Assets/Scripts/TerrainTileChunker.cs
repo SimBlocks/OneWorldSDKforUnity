@@ -2166,6 +2166,15 @@ namespace sbio.owsdk.Unity
             }
           }
 
+          if(anyTaskFaulted)
+          {
+            if (!loadTokenSource.IsCancellationRequested && anyTaskFaulted)
+            {
+              //If any load task fails, cancel the others
+              loadTokenSource.Cancel();
+            }
+          }
+
           if (allTasksDone)
           {
             break;
@@ -2173,12 +2182,6 @@ namespace sbio.owsdk.Unity
 
           if (tok.IsCancellationRequested)
           {
-            loadTokenSource.Cancel();
-          }
-
-          if (!loadTokenSource.IsCancellationRequested && anyTaskFaulted)
-          {
-            //If any load task fails, cancel the others
             loadTokenSource.Cancel();
           }
 
