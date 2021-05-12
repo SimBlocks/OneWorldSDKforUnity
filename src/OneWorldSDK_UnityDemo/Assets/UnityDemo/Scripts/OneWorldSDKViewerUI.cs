@@ -65,6 +65,30 @@ namespace sbio.OneWorldSDKViewer
       OneWorldSDKViewerContext.WorldContext.WorldOriginChanged.Event += UpdateWorldOrigin;
     }
 
+    //Called once before all updates
+    void Start()
+    {
+      m_Camera = GetComponent<Camera>();  //get the camera component attached to this script
+      if (m_Camera)
+        OneWorldSDKViewerContext.RegisterCamera(m_Camera);
+    }
+
+    //Called when the object is destroyed
+    void OnDestroy()
+    {
+      m_Camera = GetComponent<Camera>();
+      if (m_Camera)
+        OneWorldSDKViewerContext.DeregisterCamera(m_Camera);
+    }
+
+    //Called before rendering. 
+    void OnPreCull()
+    {
+      m_Camera = GetComponent<Camera>();
+      //Update the context camera to this one so objects have the correct relative positions
+      OneWorldSDKViewerContext.Camera = m_Camera;
+    }
+
     //DEPRECATED DUE TO LOW PERFORMANCE
     //NEW VERSION USES MUCH FASTER CANVASES IN MouseCoordinateUI.cs
     /*private void OnGUI()

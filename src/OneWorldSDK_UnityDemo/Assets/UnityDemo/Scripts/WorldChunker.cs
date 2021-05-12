@@ -57,6 +57,7 @@ namespace sbio.OneWorldSDKViewer
         m_TileChunker.SetAdditionalTileMaterials(m_StandardMaterials);
       }
 
+      m_TileChunker.ViewerContext = OneWorldSDKViewerContext; //make sure chunker has context to access all the scene cameras
       m_TileChunker.Update();
     }
 

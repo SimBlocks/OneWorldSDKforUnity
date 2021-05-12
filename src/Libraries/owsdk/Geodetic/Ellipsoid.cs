@@ -338,16 +338,85 @@ namespace sbio.owsdk.Geodetic
     /// <returns>The geoposition and height offset of the given global position</returns>
     public Geodetic3d ToGeodetic3d(Vec3LeftHandedGeocentric position)
     {
-      var p = ScaleToGeodeticSurface(position);
-      var h = position - p;
-      var height = Math.Sign(h.Dot(position)) * h.Magnitude;
+      double X = position.X;
+      double Y = position.Z;
+      double Z = position.Y;
 
-      Vec3LeftHandedGeocentric normal = SurfacePointGeodeticSurfaceNormal(p);
-      var localNormal = ToLocal(normal);
-      return Geodetic3d.FromRadians(
-          Math.Asin(localNormal.Y / localNormal.Magnitude),
-          Math.Atan2(localNormal.Z, localNormal.X),
-          height);
+      // step 0: calculate convenience constants.
+      const double a = 6_378_137.0;
+      const double c = 6_356_752.314245;
+
+      double ε2 = (Math.Pow(a, 2) - Math.Pow(c, 2)) / Math.Pow(a, 2);
+      double έ2 = (Math.Pow(a, 2) - Math.Pow(c, 2)) / Math.Pow(c, 2);
+
+      const double f = (a - c) / a;
+
+      // step 1: compute W = (X^2 + Y^2) ^ (1/2)
+      double W = Math.Sqrt(Math.Pow(X, 2) + Math.Pow(Y, 2));
+
+      // step 2: determine aD/c... Going to assume entity's altitude is less than 2000 kilometers above sea level.
+      double aDc = 1.0026000;
+
+      // step 3: compute T0 = Z(aD/c)
+      double T0 = Z * aDc;
+
+      // step 4: compute S0 = [Z(aD/c)^2 + W^2] ^ (1/2) 
+      double S0 = Math.Sqrt(Math.Pow(T0, 2) + Math.Pow(W, 2));
+
+      // step 5: compute sinß0 = T0 / S0 and cosß0 = W / S0
+      double sinß0 = T0 / S0;
+      double cosß0 = W / S0;
+
+      // step 6: compute T1 = Z + ce'^2 sinß0^3
+      double T1 = Z + c * έ2 * Math.Pow(sinß0, 3);
+
+      // step 7: compute S1^2 = T1^2 + (W - ae^2 cosß0^3)^2
+      double S1_2 = Math.Pow(T1, 2) + Math.Pow(W - a * ε2 * Math.Pow(cosß0, 3), 2);
+
+      // step 8: square both sides of 23 to get sin^2ϕ1 = T1^2 / S1^2
+      double sin_2ϕ1 = Math.Pow(T1, 2) / S1_2;
+
+      // step 9: ready to get h. RN = a / (1 - e^2sin^2ϕ1)^ (1/2)
+      double RN = a / Math.Sqrt(1 - ε2 * sin_2ϕ1);
+
+      double sinϕ1 = Math.Sqrt(sin_2ϕ1);
+      double cosϕ1 = (W - a * ε2 * Math.Pow(cosß0, 3)) / Math.Sqrt(S1_2);
+
+
+      // compute second iteration:
+      double tanϕ1 = sinϕ1 / cosϕ1;
+
+      double tanß1 = (1 - f) * tanϕ1;
+      double ß1 = Math.Atan(tanß1);
+      double sinß1 = Math.Sin(ß1);
+      double cosß1 = Math.Cos(ß1);
+
+      double T2 = Z + c * έ2 * Math.Pow(sinß1, 3);
+      double S2_2 = Math.Pow(T2, 2) + Math.Pow(W - a * ε2 * Math.Pow(cosß1, 3), 2);
+      double sin_2ϕ2 = Math.Pow(T2, 2) / S2_2;
+      RN = a / Math.Sqrt(1 - ε2 * sin_2ϕ2);
+
+      double sinϕ2 = Math.Sqrt(sin_2ϕ2);
+      double cosϕ2 = (W - a * ε2 * Math.Pow(cosß1, 3)) / Math.Sqrt(S2_2);
+
+      double h;
+      // step 10: if sin_2ϕ1 >= sin^2(67.5 degrees) then...
+      if (sin_2ϕ2 >= Math.Pow(Math.Sin(NumUtil.DegreesToRadians(67.5)), 2))
+      {
+        // sinϕ1 = sin_2ϕ1 ^ (1/2) and h = Z / sinϕ1 + RN(e^2 - 1)
+        h = Z / sinϕ2 + RN * (ε2 - 1);
+      }
+      else
+      {
+        // step 11: cosϕ1 = (W - a e^2 cos^3ß0) / S1 and h = W / cosϕ1 - RN
+        h = W / cosϕ2 - RN;
+      }
+
+      // step 12: compute ϕ, and λ from tan-1(Y/X)
+      double ϕ = Math.Atan2(sinϕ2, cosϕ2);
+      double λ = Math.Atan2(Y, X);
+
+      return Geodetic3d.FromRadians(ϕ, λ, h);
     }
 
     /// <summary>
@@ -364,10 +433,7 @@ namespace sbio.owsdk.Geodetic
 
        normal = SurfacePointGeodeticSurfaceNormal(p);
        var localNormal = ToLocal(normal);
-       return Geodetic3d.FromRadians(
-           Math.Asin(localNormal.Y / localNormal.Magnitude),
-           Math.Atan2(localNormal.Z, localNormal.X),
-           height);
+      return ToGeodetic3d(position);
     }
 
     /// <summary>

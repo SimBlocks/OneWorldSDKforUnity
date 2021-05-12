@@ -55,6 +55,9 @@ namespace sbio.OneWorldSDKViewer
     public float OrbitXDegrees = 0.0f;
     public float OrbitYDegrees = 0.0f;
 
+    [Tooltip("If the Left Shift key should be pressed to control the movement of this view in LatLonLock mode. Use this when adding a secondary view.")]
+    public bool  MoveUsingShift = false;
+
     public AttachedView GetAttachedView(ulong CameraID)
     {
       foreach (AttachedView attachedView in AttachedViews)
@@ -174,6 +177,11 @@ namespace sbio.OneWorldSDKViewer
       m_RTOTransform.RTOPositionf = transform.position;
 
       if (EventSystem.current.currentSelectedGameObject != null)
+      {
+        return;
+      }
+
+      if(this.EyepointCamera != this.OneWorldSDKViewerContext.Camera)
       {
         return;
       }
@@ -445,15 +453,19 @@ namespace sbio.OneWorldSDKViewer
       {
         case WorldObjectMoveMode.LatLonLock:
         {
+          float fEnabled = 0.0F;
+          if (MoveUsingShift == false && !Input.GetKey(KeyCode.LeftShift) || (MoveUsingShift == true && Input.GetKey(KeyCode.LeftShift))) //move the view with or without using the shift key 
+              fEnabled = 1.0F;
+
           //Figure out our rotation relative to the surface prior to moving
           var relRot = Quaternion.Inverse(Ellipsoid.NEDRotation((Geodetic2d)GeoPos)) * transform.rotation;
 
-          var newHeight = GeoPos.HeightMeters + Input.GetAxis("UpDown") * metersDelta;
+          var newHeight = GeoPos.HeightMeters + Input.GetAxis("UpDown") * metersDelta* fEnabled;
 
           var moveVec = new Vector2d(Input.GetAxis("LeftRight"), Input.GetAxis("ForwardBack")).RotateRadians(compassHeading);
 
-          var newLongitude = GeoPos.LongitudeDegrees + moveVec.x * degreesDelta;
-          var newLatitude = GeoPos.LatitudeDegrees + moveVec.y * degreesDelta;
+          var newLongitude = GeoPos.LongitudeDegrees + moveVec.x * degreesDelta * fEnabled;
+          var newLatitude = GeoPos.LatitudeDegrees + moveVec.y * degreesDelta * fEnabled;
 
           //Restrict height
           newHeight = Math.Max(newHeight, 1);
@@ -767,7 +779,20 @@ namespace sbio.OneWorldSDKViewer
 
     private Camera EyepointCamera
     {
-      get { return OneWorldSDKViewerContext.Camera; }
+      get
+      {
+        for (int n = 0; n < transform.childCount; ++n)
+        {
+          GameObject gameObject = transform.GetChild(n).gameObject;
+
+          if (gameObject.GetComponentInChildren<Camera>() != null)
+          {
+            return gameObject.GetComponentInChildren<Camera>();
+          }
+        }
+
+        return null;
+      }
     }
 
     private double ConvertLatitudeToMeters(double lat)

@@ -162,6 +162,11 @@ Transform unityTransform;
 unityTransform.rotation = ellipsoid.NEDRotation(wgs84Coordinate);
 ```
 
+## Jittering Frame Rate Issues
+
+If you are experiencing jitters or what seems to be slow performance issues it may be because VSync is turned off. Turning this setting on in Unity's Project Settings under the Quality section will most likely fix this issue. You will get a steady 60 frames per second.
+
+
 ## Building the Executable
 
 When you build the game, you will need to make sure that the One World SDK Viewer is in a directory in which it can locate the config file. 
@@ -179,3 +184,18 @@ the config file must be in the location:
 ## Using a Controller to Move the Camera
 
 We use Unity's [Input Manager](https://docs.unity3d.com/Manual/class-InputManager.html) to control the globe which makes it easy for you to make your own controls. It can be found by going to Edit -> Project Settings... The axis labled *Horizontal* is used for moving moving left and right (increasing or decreasing longitude). You can modify the Positive/Negative buttons. Similarly, the *UpDown* axis is used for decreasing/increasing altitude. The source code that manipulates camera movement is [src/OneWorldSDK_UnityDemo/Assets/UnityDemo/Scripts/WorldObjectMovement.cs](../src/OneWorldSDK_UnityDemo/Assets/UnityDemo/Scripts/WorldObjectMovement.cs).
+
+## Integrating VR
+
+In order to enable VR, go to Edit -> Project Settings and then install XR Plug-in Management. If using Oculus, click on Oculus Plug-in Provider. Then in the OneWorldDemo scene, add the Tracked Pose Driver component to the EyepointCamera GameObject. Also add a Tracked Pose Driver to the SkyboxCamera GameObject. That should be it. 
+
+If the sky becomes glitchy, adjusting the near-plane distance in the OneWorldSDK_Viewer.config.json file may fix the issue.
+
+```
+    {
+      "distance": 50000,
+      "near": 0.3,
+      "far": 800000
+    },
+```
+Change the near plane from 0.3 to either 0.2 or 0.4.

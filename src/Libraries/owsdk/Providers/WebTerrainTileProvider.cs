@@ -67,6 +67,11 @@ namespace sbio.owsdk.Providers
           System.Console.WriteLine(ex.ToString());
         }
 
+        if(tileData == null)
+        {
+          throw new ArgumentException("Tile is null");
+        }
+
         //Compare the image against the Bing 'tile not available' image
         //TODO: This won't work on other providers, naturally
         var sha = new SHA256Managed();

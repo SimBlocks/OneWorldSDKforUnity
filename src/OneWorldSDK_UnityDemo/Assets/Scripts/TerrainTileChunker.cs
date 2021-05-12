@@ -23,6 +23,7 @@ using sbio.owsdk.Async;
 using sbio.owsdk.Images;
 using sbio.owsdk.Tiles;
 using sbio.owsdk.WMS;
+using sbio.OneWorldSDKViewer;
 
 namespace sbio.owsdk.Unity
 {
@@ -374,6 +375,17 @@ namespace sbio.owsdk.Unity
           var chunkChildrenCount = chunkChildren.Length;
 
           var distanceToEyeMeters = chunk.DistanceTo(ref cameraPos);
+          if (ViewerContext)
+          {
+            //check distance to all cameras
+            foreach (Camera camera in ViewerContext.Cameras)
+            {
+              var Pos = camera.transform.position;
+              var dist = chunk.DistanceTo(ref Pos);
+              if (dist < distanceToEyeMeters)
+                distanceToEyeMeters = dist;
+            }
+          }
 
           var activeVertResolutionMetersPerPixel = m_ResolutionDistanceBias * distanceToEyeMeters * vertResolutionPP;
           var activeHorzResolutionMetersPerPixel = m_ResolutionDistanceBias * distanceToEyeMeters * horzResolutionPP;
@@ -1384,6 +1396,9 @@ namespace sbio.owsdk.Unity
     private readonly Stopwatch m_LoadFrameStopwatch = new Stopwatch();
     private readonly IWorldContext m_WorldContext;
     private readonly TileLoadContext m_TileLoadContext;
+
+    //The current viewer context. Set by the World Chunker Update before our Update is called
+    public OneWorldSDKViewerContext ViewerContext;
 
     private readonly ITileMeshProvider m_MeshProvider;
 

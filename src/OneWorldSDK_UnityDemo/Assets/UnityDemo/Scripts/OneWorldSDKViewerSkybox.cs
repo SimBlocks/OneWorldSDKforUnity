@@ -56,19 +56,26 @@ namespace sbio.OneWorldSDKViewer
 
         //Figure out the geo position of the camera
         var cameraGeoPos = Ellipsoid.ToGeodetic3d(cam.transform.position.ToVec3LeftHandedGeocentric() + WorldOrigin);
+        var maxHeightMeters = cameraGeoPos.HeightMeters;
 
-        //Update sky position and rotation
-        //Figure out 
-        var heightMeters = cameraGeoPos.HeightMeters;
+        //check dall cameras
+        foreach (Camera camera in OneWorldSDKViewerContext.Cameras)
+        {
+          var geopos = Ellipsoid.ToGeodetic3d(camera.transform.position.ToVec3LeftHandedGeocentric() + WorldOrigin);
+          var heightMeters = geopos.HeightMeters;
+
+          if(heightMeters > maxHeightMeters)
+            maxHeightMeters = heightMeters;
+        }
 
         var switchoutDistance = OneWorldSDKViewerContext.Config.SkyboxSwitchoutDistance;
-        if (heightMeters < switchoutDistance)
+        if (maxHeightMeters < switchoutDistance)
         {
           //We're within the "atmosphere"
           if (m_SkySkyboxMaterial != null)
           {
             m_Skybox.material = m_SkySkyboxMaterial;
-            m_SkySkyboxMaterial.SetFloat("_Exposure", 1 - Mathf.Clamp01((float)(heightMeters / switchoutDistance)));
+            m_SkySkyboxMaterial.SetFloat("_Exposure", 1 - Mathf.Clamp01((float)(maxHeightMeters / switchoutDistance)));
           }
 
           RenderSettings.fog = true;
@@ -82,7 +89,7 @@ namespace sbio.OneWorldSDKViewer
           if (m_GalaxySkyboxMaterial != null)
           {
             m_Skybox.material = m_GalaxySkyboxMaterial;
-            m_GalaxySkyboxMaterial.SetFloat("_Exposure", Mathf.Clamp01((float)((heightMeters - switchoutDistance) / switchoutDistance)));
+            m_GalaxySkyboxMaterial.SetFloat("_Exposure", Mathf.Clamp01((float)((maxHeightMeters - switchoutDistance) / switchoutDistance)));
           }
 
           RenderSettings.fog = false;

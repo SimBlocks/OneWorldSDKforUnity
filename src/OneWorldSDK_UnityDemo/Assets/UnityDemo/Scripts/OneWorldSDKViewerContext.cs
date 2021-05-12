@@ -2,6 +2,7 @@
 //https://www.simblocks.io/
 //The source code in this file is licensed under the MIT License. See the LICENSE text file for full terms.
 using System;
+using System.Collections.Generic;
 using sbio.owsdk.Services;
 using UnityEngine;
 using sbio.owsdk.Unity;
@@ -125,10 +126,22 @@ namespace sbio.OneWorldSDKViewer
 
     private Camera m_Camera;
     private int m_ActiveProviderIndex;
+
+    //A list of all active cameras. Used by the terrain chunker to deterine the texture resolution to stream
+    public List<Camera> Cameras = new List<Camera>();
+
+    public void RegisterCamera(Camera camera)
+    {
+      Cameras.Add(camera);
+  }
+
+    public void DeregisterCamera(Camera camera)
+    {
+      Cameras.Remove(camera);
+    }
+
   }
 }
-
-
 
 //Copyright SimBlocks LLC 2021
 //https://www.simblocks.io/
