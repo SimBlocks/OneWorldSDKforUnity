@@ -58,7 +58,11 @@ By default, no elevation will be present. Elevation can be easily supported usin
   }
 ```
 
-## Videos
+## Setup Video
+Please see this video showing the steps to setup the One World SDK for Unity.  
+[![One World SDK Setup Tutorial](/docs/images/OneWorldSDKSetup.PNG)](https://www.youtube.com/watch?v=fdBDXimGr_o)
+
+## Demo Videos
 Several videos created using the One World SDK for Unity can be found on our [YouTube](https://www.youtube.com/c/SimBlocksio) channel.
 [![One World SDK for Unity on YouTube](/docs/images/OneWorldSDK_YouTube.PNG)](https://www.youtube.com/playlist?list=PLj4ixw_Qvkbc7ujRJX40OT1G7cLq2Wc31)
   
