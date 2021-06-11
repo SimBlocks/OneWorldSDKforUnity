@@ -556,12 +556,6 @@ namespace sbio.owsdk.Unity
           else
           {
             m_ActiveLoadOps[opIdx] = null;
-
-            if (++numTried == m_ActiveLoadOps.Length)
-            {
-              //Nothing else to do for now
-              break;
-            }
           }
         }
       }
