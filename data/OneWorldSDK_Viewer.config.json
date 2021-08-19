@@ -161,9 +161,9 @@
     //The LOD that features will be queried at
     "featureLoadLOD": 15,
     //The maximum LOD to create tiles at
-    "maxTileLOD": 18,
+    "maxTileLOD": 10,
     //The maximum lod to use for physics
-    "maxPhysicsLOD": 13,
+    "maxPhysicsLOD": 10,
     //The maximum amount of time in milliseconds spend loading tiles each frame
     //Increasing this number lowers frame-rate in high-load scenarious but
     //decreases latency for loading tiles
