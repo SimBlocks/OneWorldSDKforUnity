@@ -19,6 +19,7 @@ using sbio.owsdk.Utilities;
 using sbio.owsdk.WMS;
 using UnityEngine;
 using sbio.owsdk.Unity;
+using sbio.owsdk;
 
 namespace sbio.OneWorldSDKViewer
 {
@@ -66,7 +67,7 @@ namespace sbio.OneWorldSDKViewer
       StartCoroutine(Load());
     }
 
-    private void OnApplicationQuit()
+    private void OnDestroy()
     {
       if (m_LoadingTask != null)
       {

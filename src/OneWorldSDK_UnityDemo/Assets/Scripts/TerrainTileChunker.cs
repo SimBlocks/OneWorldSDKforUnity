@@ -589,7 +589,11 @@ namespace sbio.owsdk.Unity
         var rtoPos3 = (chunk.Center - newWorldOrigin).ToVector3();
 
         m_BoundingSpheres[i + 1].position = rtoPos3;
-        chunk.GameObject.transform.position = rtoPos3;
+
+        if (chunk.GameObject != null)
+        {
+          chunk.GameObject.transform.position = rtoPos3;
+        }
 
         Profiler.EndSample();
       }
@@ -603,6 +607,9 @@ namespace sbio.owsdk.Unity
       {
         throw new ObjectDisposedException(ToString());
       }
+
+      GameObject.Destroy(m_ChunkPoolObject);
+      GameObject.Destroy(m_ActiveChunksObject);
 
       m_Disposed = true;
 
@@ -1056,8 +1063,16 @@ namespace sbio.owsdk.Unity
       }
 
       //Make sure our components are enabled and the tile object disabled
-      chunk.GameObject.SetActive(false);
-      chunk.Renderer.enabled = true;
+      if (chunk.GameObject != null)
+      {
+        chunk.GameObject.SetActive(false);
+      }
+
+      if (chunk.Renderer != null)
+      {
+        chunk.Renderer.enabled = true;
+      }
+
       if (chunk.Collider != null)
       {
         chunk.Collider.enabled = true;
@@ -1066,15 +1081,27 @@ namespace sbio.owsdk.Unity
       switch (chunk.LoadStatus)
       {
         case TileLoadStatus.Idle:
-          chunk.GameObject.name = "Inactive Tile";
+          if (chunk.GameObject != null)
+          {
+            chunk.GameObject.name = "Inactive Tile";
+          }
+
           chunk.TileInfo = default(TerrainTileIndex);
           break;
         case TileLoadStatus.Loading:
-          chunk.GameObject.name = string.Format("Inactive Tile (loading) {0}", FormatTileID(chunk.TileInfo));
+          if (chunk.GameObject != null)
+          {
+            chunk.GameObject.name = string.Format("Inactive Tile (loading) {0}", FormatTileID(chunk.TileInfo));
+          }
+
           m_LoadedChunks.Add(chunk.TileInfo, chunk);
           break;
         case TileLoadStatus.Loaded:
-          chunk.GameObject.name = string.Format("Inactive tile (loaded) {0}", FormatTileID(chunk.TileInfo));
+          if (chunk.GameObject != null)
+          {
+            chunk.GameObject.name = string.Format("Inactive tile (loaded) {0}", FormatTileID(chunk.TileInfo));
+          }
+
           m_LoadedChunks.Add(chunk.TileInfo, chunk);
           break;
       }
@@ -1115,7 +1142,10 @@ namespace sbio.owsdk.Unity
         ChunkDeactivated(chunk);
       }
 
-      chunk.GameObject.transform.parent = m_ChunkPoolObject.transform;
+      if (chunk.GameObject != null && m_ChunkPoolObject != null)
+      {
+        chunk.GameObject.transform.parent = m_ChunkPoolObject.transform;
+      }
 
       chunk.AllChildrenLoaded = false;
       chunk.Parent = null;

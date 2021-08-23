@@ -114,6 +114,16 @@ When using lat, lon, the process is the same, but additionally requires using th
 
 The settings for the GeoTransform MonoBehaviour are shown above. Don't forget to set the WorldContext on the GeoTransform!
 
+Create a parent GameObject which has the GeoTransform script attached and reset its Position Rotation and Scale. Set the GeoTransform, Latitude, and Longitude. 
+
+Then add as a Child of this GameObject, the prefab or object. 
+
+Just like in the picture, the GeoTransform is attached to the parent object, named "Tiles". Then the actual tiles are children. 
+
+In this way, the Position, Rotation, and Scale of the child tiles could possibly be modified. These transform values are relative to the GeoTransform position.
+
+![GeoTransform as Parent](images/Heirarchy.PNG)
+
 To transform from a WGS84 coordinate (expressed as lat,lon,elevation):
 
 ```
@@ -150,6 +160,8 @@ To configure elevation via an SQL database, add an object for `elevationProvider
 ```
 
 **Note:** Querying elevations directly from a SQL file is a bit faster than from Bing, but setting up a local elevations database is required.
+
+Please follow these [instructions](ExternalData.md) to setup a local SQL database.
 
 
 # Common Issues

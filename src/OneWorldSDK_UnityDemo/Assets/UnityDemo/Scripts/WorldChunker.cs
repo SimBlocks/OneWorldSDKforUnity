@@ -46,6 +46,21 @@ namespace sbio.OneWorldSDKViewer
       enabled = false;
     }
 
+    private void OnDestroy()
+    {
+      if (m_HaveLoaded)
+      {
+        OneWorldSDKViewerContext.ActiveImageryProviderChanged -= OnImageryProviderChanged;
+        OneWorldSDKViewerContext.CameraChanged -= OnCameraChanged;
+      }
+
+      OneWorldSDKViewerContext.FinishedLoading.Event -= OnFinishedLoading;
+      OneWorldSDKViewerContext.BeginLoading.Event -= OnBeginLoading;
+
+      m_TileChunker.Dispose();
+      m_TileChunker = null;
+    }
+
     private void Update()
     {
       if (OneWorldSDKViewerContext.ShowWireframe)
@@ -73,17 +88,7 @@ namespace sbio.OneWorldSDKViewer
 
     private void OnApplicationQuit()
     {
-      if (m_HaveLoaded)
-      {
-        OneWorldSDKViewerContext.ActiveImageryProviderChanged -= OnImageryProviderChanged;
-        OneWorldSDKViewerContext.CameraChanged -= OnCameraChanged;
-      }
-
-      OneWorldSDKViewerContext.FinishedLoading.Event -= OnFinishedLoading;
-      OneWorldSDKViewerContext.BeginLoading.Event -= OnBeginLoading;
-
-      m_TileChunker.Dispose();
-      m_TileChunker = null;
+      
     }
 
     #endregion
@@ -112,7 +117,10 @@ namespace sbio.OneWorldSDKViewer
 
     private void OnImageryProviderChanged(ITerrainTileProvider newProvider)
     {
-      m_TileChunker.TerrainTileProvider = newProvider;
+      if (m_TileChunker != null)
+      {
+        m_TileChunker.TerrainTileProvider = newProvider;
+      }
     }
 
     private TerrainTileChunker m_TileChunker;

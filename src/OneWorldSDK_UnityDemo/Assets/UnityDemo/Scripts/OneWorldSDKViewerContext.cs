@@ -133,7 +133,7 @@ namespace sbio.OneWorldSDKViewer
     public void RegisterCamera(Camera camera)
     {
       Cameras.Add(camera);
-  }
+    }
 
     public void DeregisterCamera(Camera camera)
     {
