@@ -200,7 +200,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Pngcs">
-      <HintPath>..\..\thirdparty\pngcs\Pngcs.dll</HintPath>
+      <HintPath>..\thirdparty\Pngcs.dll</HintPath>
     </Reference>
     <Reference Include="ProjNET, Version=1.4.0.0, Culture=neutral, PublicKeyToken=a1f5bdcd9c6f5740, processorArchitecture=MSIL">
       <HintPath>..\packages\ProjNET4GeoAPI.1.4.1\lib\net45\ProjNET.dll</HintPath>
