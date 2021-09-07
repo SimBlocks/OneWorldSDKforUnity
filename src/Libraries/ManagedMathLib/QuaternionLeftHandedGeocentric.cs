@@ -21,8 +21,6 @@ namespace sbio.Core.Math
 
     public QuaternionLeftHandedGeocentric Inverse()
     {
-      //TODO
-
       System.Numerics.Quaternion q = new System.Numerics.Quaternion((float)X, (float)Y, (float)Z, (float)W);
       q = System.Numerics.Quaternion.Inverse(q);
 

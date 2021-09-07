@@ -73,7 +73,6 @@ namespace sbio.owsdk.Providers
         }
 
         //Compare the image against the Bing 'tile not available' image
-        //TODO: This won't work on other providers, naturally
         var sha = new SHA256Managed();
         var checksum = sha.ComputeHash(tileData);
         var checksumStr = BitConverter.ToString(checksum).Replace("-", string.Empty);

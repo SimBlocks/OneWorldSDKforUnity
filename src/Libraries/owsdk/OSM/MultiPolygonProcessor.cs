@@ -202,7 +202,7 @@ namespace sbio.owsdk.OSM
         // outer
         FeatureUtil.InsertCoordinates(outer.Coordinates, coordinates, true);
         var outerArea = new FeatureArea(id,
-          Enumerable.Empty<FeatureTag>(), //TODO
+          Enumerable.Empty<FeatureTag>(),
           coordinates);
         features.Add(new FeatureRelationMember(outer.Role, outerArea));
       }
@@ -212,12 +212,12 @@ namespace sbio.owsdk.OSM
       {
         var seq = sequences[i];
 
-        var id = seq.ID; //TODO Is this right? original code wasn't setting ID
+        var id = seq.ID;
         var coordinates = new List<Geodetic2d>();
 
         FeatureUtil.InsertCoordinates(seq.Coordinates, coordinates, false);
         var innerArea = new FeatureArea(id,
-          Enumerable.Empty<FeatureTag>(), //TODO
+          Enumerable.Empty<FeatureTag>(),
           coordinates);
 
         features.Add(new FeatureRelationMember(seq.Role, innerArea));
@@ -291,7 +291,7 @@ namespace sbio.owsdk.OSM
           FeatureUtil.InsertCoordinates(outer.Coordinates, coordinates, true);
 
           var outerArea = new FeatureArea(id,
-            Enumerable.Empty<FeatureTag>(), //TODO
+            Enumerable.Empty<FeatureTag>(),
             coordinates);
 
           features.Add(new FeatureRelationMember(outer.Role, outerArea));
@@ -300,12 +300,12 @@ namespace sbio.owsdk.OSM
         // inner: create a new area and remove the used rings
         foreach (var innerRing in inners)
         {
-          var id = innerRing.ID; //TODO Is this right? original code was not setting id
+          var id = innerRing.ID;
           var coordinates = new List<Geodetic2d>();
           FeatureUtil.InsertCoordinates(innerRing.Coordinates, coordinates, false);
 
           var innerArea = new FeatureArea(id,
-            Enumerable.Empty<FeatureTag>(), //TODO
+            Enumerable.Empty<FeatureTag>(),
             coordinates);
 
           features.Add(new FeatureRelationMember(innerRing.Role, innerArea));

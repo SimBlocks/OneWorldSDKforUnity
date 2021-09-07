@@ -83,7 +83,6 @@ namespace sbio.Core.Math
         }
       }
 
-
       if (latitudeRadians > c_PiOverTwod)
       {
         if (latitudeRadians > (2 * Math.PI))
@@ -100,7 +99,6 @@ namespace sbio.Core.Math
           longitudeRadians += Math.PI;
         }
       }
-
 
       if (longitudeRadians < -Math.PI)
       {
@@ -120,29 +118,6 @@ namespace sbio.Core.Math
         if (longitudeRadians >= Math.PI)
           longitudeRadians -= (2 * Math.PI);
        }
-
-      /*while (latitudeRadians < -c_PiOverTwod)
-      {
-        latitudeRadians = -c_PiOverTwod - latitudeRadians;
-        longitudeRadians += Math.PI;
-      }
-
-      while (latitudeRadians > c_PiOverTwod)
-      {
-        latitudeRadians = c_PiOverTwod - latitudeRadians;
-        longitudeRadians += Math.PI;
-      }
-
-      while (latitudeRadians < -c_PiOverTwod)
-      {
-        latitudeRadians = -c_PiOverTwod - latitudeRadians;
-        longitudeRadians += Math.PI;
-      }
-
-      while (longitudeRadians < -Math.PI)
-        longitudeRadians += 2 * Math.PI;
-      while (longitudeRadians >= Math.PI)
-        longitudeRadians -= 2 * Math.PI;*/
     }
 
     /// <summary>
@@ -190,7 +165,6 @@ namespace sbio.Core.Math
         }
       }
 
-
       if (longitudeDegrees < -180)
       {
         if(longitudeDegrees < -360)
@@ -209,29 +183,6 @@ namespace sbio.Core.Math
         if (longitudeDegrees >= 180)
           longitudeDegrees -= 360;
       }
-
-      /*while (latitudeDegrees < -90)
-      {
-        latitudeDegrees = -180 - latitudeDegrees;
-        longitudeDegrees += 180;
-      }
-
-      while (latitudeDegrees > 90)
-      {
-        latitudeDegrees = 180 - latitudeDegrees;
-        longitudeDegrees += 180;
-      }
-
-      while (latitudeDegrees < -90)
-      {
-        latitudeDegrees = -180 - latitudeDegrees;
-        longitudeDegrees += 180;
-      }
-
-      while (longitudeDegrees < -180)
-        longitudeDegrees += 360;
-      while (longitudeDegrees >= 180)
-        longitudeDegrees -= 360;*/
     }
 
     public static void DegreesToDMS(double degrees, out int d, out int m, out int s)

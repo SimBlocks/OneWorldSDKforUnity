@@ -131,7 +131,7 @@ namespace sbio.owsdk.Providers
       m_Ellipsoid = ellipsoid;
       m_ElevationProvider = elevationProvider;
       m_TileAttributesProvider = attributesProvider;
-      m_SamplesBuffers = new ConcurrentStack<ElevationPointSample[]>(Enumerable.Repeat(0, settings.MaxParallelRequests).Select(_ => new ElevationPointSample[settings.NumSamples * settings.NumSamples]));
+      m_SamplesBuffers = new ConcurrentStack<ElevationPointSample[]>(Enumerable.Repeat(0, settings.MaxParallelRequests).Select(_ => new ElevationPointSample[settings.NumSamples * settings.NumSamples + settings.NumSamples + settings.NumSamples]));
       m_NumSamples = settings.NumSamples;
       m_SkirtHeight = settings.SkirtHeight;
       m_WaterDepth = settings.WaterDepth;
@@ -186,6 +186,7 @@ namespace sbio.owsdk.Providers
 
       var mapPixelWidth = TileMapper.MapPixelWidth(tileIndex.Level);
       int txPx, tyPx;
+      int xPx, yPx;
       TileMapper.TileToPixelXY(tileIndex, out txPx, out tyPx);
       var tilePixelWidth = TileMapper.TilePixelHeight(tileIndex.Level);
       var tilePixelHeight = TileMapper.TilePixelWidth(tileIndex.Level);
@@ -195,23 +196,46 @@ namespace sbio.owsdk.Providers
       for (var y = 0; y < numSamplesY; ++y)
       {
         var yOff = y * numSamplesX;
-        var yPx = (int)((tyPx + yDeltaPx * y));
+        yPx = (int)((tyPx + yDeltaPx * y));
         for (var x = 0; x < numSamplesX; ++x)
         {
           var xOff = x;
-          var xPx = (int)((txPx + xDeltaPx * x)) % mapPixelWidth; //wrap around longitude
-
-          var geoPoint = TileMapper.PixelXYToGeo(tileIndex.Level, xPx, yPx);
-          samples[yOff + xOff] = new ElevationPointSample(geoPoint);
+          xPx = (int)((txPx + xDeltaPx * x)) % mapPixelWidth; //wrap around longitude
+          samples[yOff + xOff] = new ElevationPointSample(TileMapper.PixelXYToGeo(tileIndex.Level, xPx, yPx));
         }
       }
+
+      // append extra column
+      int i = m_NumSamples * m_NumSamples;
+      xPx = (int)((txPx + tilePixelWidth + xDeltaPx)) % mapPixelWidth;
+      for (var y = 0; y < numSamplesY; ++y)
+      {
+        yPx = (int)((tyPx + yDeltaPx * y));
+        samples[i++] = new ElevationPointSample(TileMapper.PixelXYToGeo(tileIndex.Level, xPx, yPx));
+        }
+
+      // and then append extra row
+      yPx = (int)((tyPx + tilePixelHeight + yDeltaPx));
+      for (var x = 0; x < numSamplesX; ++x)
+      {
+        xPx = (int)((txPx + xDeltaPx * x)) % mapPixelWidth; //wrap around longitude
+        samples[i++] = new ElevationPointSample(TileMapper.PixelXYToGeo(tileIndex.Level, xPx, yPx));
+      }
+      }
+
+    private Vector3f TransformVertex(Geodetic2d coordGeo, double elevation, QuaternionLeftHandedGeocentric rotationInv, Vec3LeftHandedGeocentric meshOrigin3d)
+    {
+      //Vertex position in 3d world
+      Vec3LeftHandedGeocentric normal;
+      var point3d = m_Ellipsoid.ToVec3LeftHandedGeocentric(coordGeo, elevation, out normal);
+      return rotationInv.Multiply(point3d - meshOrigin3d).ToVector3f();
     }
 
     private TileMesh GenerateMesh(TerrainTileIndex idx, ElevationPointSample[] elevationSamples, ITileAttributeMask mask, CancellationToken tok)
     {
       var tileIndex = idx;
       var ellipsoid = m_Ellipsoid;
-      Vector3d vCenter = SampleBounds(m_Ellipsoid, elevationSamples).Center;
+      Vector3d vCenter = SampleBounds(m_Ellipsoid, elevationSamples.Take(m_NumSamples*m_NumSamples)).Center;
       Vec3LeftHandedGeocentric meshOrigin3d = new Vec3LeftHandedGeocentric(vCenter.x, vCenter.y, vCenter.z);
 
       //The length of the skirt
@@ -269,13 +293,54 @@ namespace sbio.owsdk.Providers
         }
 
         //Vertex position in 3d world
-        Vec3LeftHandedGeocentric normal;
-        var point3d = ellipsoid.ToVec3LeftHandedGeocentric(coordGeo, elevation, out normal);
-
-        normals[vertIndex] = rotationInv.Multiply(normal).ToVector3f();
-        vertices[vertIndex] = rotationInv.Multiply(point3d - meshOrigin3d).ToVector3f();
+        vertices[vertIndex] = TransformVertex(coordGeo, elevation, rotationInv, meshOrigin3d);
       }
 
+      int f = numLatLonVertices;
+      Vector3f[] extraColumn = new Vector3f[m_NumSamples];
+      Vector3f[] extraRow = new Vector3f[m_NumSamples];
+      for(int j = 0; j < m_NumSamples; j++)
+      {
+        var sample = elevationSamples[f++];
+        extraColumn[j] = TransformVertex(sample.Position, sample.Elevation, rotationInv, meshOrigin3d);
+      }
+      for (int j = 0; j < m_NumSamples; j++)
+      {
+        var sample = elevationSamples[f++];
+        extraRow[j] = TransformVertex(sample.Position, sample.Elevation, rotationInv, meshOrigin3d);
+      }
+
+      for (var y = 0; y < numLatVertices; ++y)
+      {
+        var yOff = y * numLonVertices;
+        for (var x = 0; x < numLonVertices; ++x)
+        {
+          var xOff = x;
+          var p1 = vertices[yOff + xOff];
+          sbio.Core.Math.Vector3f p2;
+          if (yOff + numLonVertices + xOff > numLatLonVertices - 1)
+          {
+            p2 = extraRow[xOff];
+          }
+          else
+          {
+            p2 = vertices[yOff + numLonVertices + xOff];
+          }
+          sbio.Core.Math.Vector3f p3;
+          if (xOff + 1 == numLonVertices)
+          {
+            p3 = extraColumn[y];
+          }
+          else
+          {
+            p3 = vertices[yOff + xOff + 1];
+          }
+          var U = p2 - p1;
+          var V = p3 - p1;
+          var N = V.Cross(U);
+          normals[yOff + xOff] = N.Normalize();
+        }
+      }
       var extents = (Vector3f)Bounds3d.FromPoints(vertices.Take(numLatLonVertices).Select(v => (Vector3d)v)).Extents;
 
       var triangles = new int[(numLatVertices - 1) * (numLonVertices - 1) * 2 * 3 + (numSkirtVertices * 2 * 3)];

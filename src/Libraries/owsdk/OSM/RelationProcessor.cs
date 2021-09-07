@@ -59,8 +59,6 @@ namespace sbio.owsdk.OSM
         return;
       }
 
-      //TODO Might need to modify code to have resolving occur here instead,
-      //because we might not want to resolve nodes that are referencing parents
       m_Features.Add(new FeatureRelationMember(elt.Item2, elt.Item1));
     }
 

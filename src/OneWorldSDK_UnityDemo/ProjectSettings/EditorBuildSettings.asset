@@ -6,5 +6,5 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/GlobeViewer.unity
+    path: Assets/Scenes/OneWorldDemo.unity
     guid: cf09593a47c413e4ea0ea32b7dfb9bda

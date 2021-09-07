@@ -27,30 +27,6 @@ namespace sbio.Core.Math
       return new Vec3Geocentric(v.X, v.Z, v.Y);    
     }
 
-    /*
-        public static void GetNorthEastDown(double lat, double lon, ref Vec3Geocentric north, ref Vec3Geocentric east, ref Vec3Geocentric down)
-        {
-          double[] m = new double[9];
-          GetNorthEastDown(lat, lon, ref m[0], ref m[1], ref m[2], ref m[3], ref m[4], ref m[5], ref m[6], ref m[7], ref m[8]);
-          north.Set(m[0], m[1], m[2]);
-          east.Set(m[3], m[4], m[5]);
-          down.Set(m[6], m[7], m[8]);
-        }
-        [DllImport("sbioMathNativePlugin")]
-        public static extern void GetNorthEastDown(double lat, double lon,
-          ref double northX, ref double northY, ref double northZ,
-          ref double eastX, ref double eastY, ref double eastZ,
-          ref double downX, ref double downY, ref double downZ);
-
-        public static void ConvertGeocentricToGeodeticCoordinates(Vec3Geocentric position, ref double lat, ref double lon, ref double altitude)
-        {
-          ConvertGeocentricToGeodeticCoordinates(position.X, position.Y, position.Z, ref lat, ref lon, ref altitude);
-        }
-
-        [DllImport("sbioMathNativePlugin")]
-        public static extern void ConvertGeocentricToGeodeticCoordinates(double x, double y, double z,
-          ref double latitude, ref double longitude, ref double altitude);
-    */
     public static QuaternionLeftHandedGeocentric CreateGeocentricRotation(Vec3LeftHandedGeocentric north, Vec3LeftHandedGeocentric up)
     {
       // Modified version of this:
