@@ -21,3 +21,5 @@
 /src/OneWorldSDK_UnityDemo/Assembly-CSharp.csproj
 /src/OneWorldSDK_UnityDemo/OneWorldSDK_UnityDemo.sln
 /src/OneWorldSDK_UnityDemo/obj/Debug
+/build
+/src/OneWorldSDK_UnityDemo/*.vsconfig
