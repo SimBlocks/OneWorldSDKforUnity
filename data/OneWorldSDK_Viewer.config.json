@@ -65,7 +65,11 @@
     },
     "bing": {
       //The bing API key to use
-      "apiKey": ""
+      "apiKey": "",
+	  //Number of times to retry fetching elevation data
+	  //If using a public bing key, try setting this number
+	  //significantly higher for better elevation results
+	  "retryCount": 20
     }
   },
 
@@ -161,7 +165,7 @@
     //The LOD that features will be queried at
     "featureLoadLOD": 15,
     //The maximum LOD to create tiles at
-    "maxTileLOD": 10,
+    "maxTileLOD": 20,
     //The maximum lod to use for physics
     "maxPhysicsLOD": 10,
     //The maximum amount of time in milliseconds spend loading tiles each frame

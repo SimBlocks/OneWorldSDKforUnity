@@ -1,4 +1,4 @@
-//Copyright SimBlocks LLC 2021
+//Copyright SimBlocks LLC 2016-2022
 //https://www.simblocks.io/
 //The source code in this file is licensed under the MIT License. See the LICENSE text file for full terms.
 using sbio.Core.Math;
@@ -57,7 +57,7 @@ namespace sbio.owsdk.Unity
 
     public void Update()
     {
-
+      surfaceHit = false;
       if (WorldContext != m_LastWorldContext)
       {
         if (m_LastWorldContext != null)
@@ -73,7 +73,22 @@ namespace sbio.owsdk.Unity
         if (RotateFromTerrainSurface || AltitudeFromTerrainSurface)
         {
           var rayDir = WorldContext.Ellipsoid.GeodeticSurfaceNormal(GeoPosition).ToVector3();
-          surfaceHit = Physics.Raycast(transform.position, -rayDir, out hit);
+          var intersections = Physics.RaycastAll(transform.position, -rayDir, 10000f);
+          if (intersections.Length == 0)
+          {
+            intersections = Physics.RaycastAll(transform.position + rayDir * 10000f, -rayDir, 10000f);
+          }
+          foreach (var intersection in intersections)
+          {
+            if (intersection.transform.gameObject.name.StartsWith("Tile ("))
+            {
+              hit = intersection;
+              surfaceHit = true;
+              break;
+            }
+          }
+          if (!surfaceHit)
+            return;
         }
 
         if (RotateUp)
@@ -91,14 +106,14 @@ namespace sbio.owsdk.Unity
           transform.position = (pos3d - WorldContext.WorldOrigin).ToVector3();
         }
 
-        if (AltitudeFromTerrainSurface && surfaceHit)
+        if (AltitudeFromTerrainSurface)
         {
           transform.position = hit.point + WorldContext.Ellipsoid.GeodeticSurfaceNormal(GeoPosition).ToVector3() * (float)GeoPosition.HeightMeters;
         }
 
         if (RotateUp)
         {
-          if (RotateFromTerrainSurface && surfaceHit)
+          if (RotateFromTerrainSurface)
           {
             transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
           }

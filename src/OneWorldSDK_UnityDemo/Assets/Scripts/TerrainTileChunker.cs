@@ -1,4 +1,4 @@
-//Copyright SimBlocks LLC 2021
+//Copyright SimBlocks LLC 2016-2022
 //https://www.simblocks.io/
 //The source code in this file is licensed under the MIT License. See the LICENSE text file for full terms.
 using System;
@@ -43,6 +43,7 @@ namespace sbio.owsdk.Unity
       public int AtlasTileSize { get; set; } = 4;
       public bool CompressTextures { get; set; } = true;
       public float ResolutionDistanceBias { get; set; } = 1.0f;
+      public bool UseRawImage { get; set; } = false;
     }
 
     public Camera Camera
@@ -671,6 +672,7 @@ namespace sbio.owsdk.Unity
       m_DisablePhysics = settings.DisablePhysics;
       m_MaxPhysicsLOD = settings.MaxPhysicsLOD;
       m_LoadFrameBudget = settings.LoadFrameBudget;
+      m_UsesRawImageBuffers = settings.UseRawImage;
       m_WorldContext = context;
       m_TileLoadContext = tileLoadContext;
       m_MeshProvider = meshProvider;
@@ -749,6 +751,11 @@ namespace sbio.owsdk.Unity
       }
     }
 #endif
+
+    public bool Uses_Raw_Image_Buffers()
+    {
+      return m_UsesRawImageBuffers;
+    }
 
     private void TileMapperChanged()
     {
@@ -1272,6 +1279,11 @@ namespace sbio.owsdk.Unity
 
     private void HideChunk(TerrainTileChunk chunk)
     {
+      if(chunk == null)
+      {
+        return;
+      }
+
       if (m_MaxPhysicsLOD == chunk.LOD)
       {
         //Just disable our renderer but keep the collider active. Child collider will be inactive
@@ -1284,12 +1296,15 @@ namespace sbio.owsdk.Unity
       }
       else
       {
+        if (chunk.GameObject != null)
+        {
         if (chunk.GameObject.activeSelf)
         {
           chunk.GameObject.SetActive(false);
           m_TileLoadContext.TileObjectInactive.Raise(chunk.TileInfo);
         }
       }
+    }
     }
 
     private TerrainTileChunk AllocateChunk(TerrainTileChunk parent, TerrainTileIndex index)
@@ -1415,6 +1430,7 @@ namespace sbio.owsdk.Unity
     private readonly bool m_DisablePhysics;
     private readonly int m_MaxPhysicsLOD;
     private readonly int m_LoadFrameBudget;
+    private readonly bool m_UsesRawImageBuffers;
     private readonly byte m_AtlasTileSize;
     private readonly float m_ResolutionDistanceBias;
     private readonly Stopwatch m_LoadFrameStopwatch = new Stopwatch();
@@ -2074,7 +2090,7 @@ namespace sbio.owsdk.Unity
         var normals = default(Vector3[]);
         var uvs = default(List<Vector3>);
         var needsResize = default(bool);
-
+        var Buffer_Is_Raw = chunker.Uses_Raw_Image_Buffers();
         if (!m_HaveLoadedTexture)
         {
           Profiler.BeginSample("Initiating texture load");
@@ -2085,7 +2101,7 @@ namespace sbio.owsdk.Unity
               var len = t.Result;
               int width, height;
               {
-                if (!ImageDecoder.DecodeInto(new ArraySegment<byte>(textureBuffer, 0, len), pixelsBuffer, out width, out height)
+                if (!ImageDecoder.DecodeInto(new ArraySegment<byte>(textureBuffer, 0, len), pixelsBuffer, Buffer_Is_Raw, out width, out height)
                     || width != 256
                     || height != 256)
                 {
@@ -2390,6 +2406,6 @@ namespace sbio.owsdk.Unity
 
 
 
-//Copyright SimBlocks LLC 2021
+//Copyright SimBlocks LLC 2016-2022
 //https://www.simblocks.io/
 //The source code in this file is licensed under the MIT License. See the LICENSE text file for full terms.

@@ -1,4 +1,4 @@
-//Copyright SimBlocks LLC 2021
+//Copyright SimBlocks LLC 2016-2022
 //https://www.simblocks.io/
 //The source code in this file is licensed under the MIT License. See the LICENSE text file for full terms.
 using System.Reflection;
@@ -13,7 +13,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("SimBlocks LLC")]
 [assembly: AssemblyProduct("ManagedMathLib")]
-[assembly: AssemblyCopyright("Copyright ©  2021")]
+[assembly: AssemblyCopyright("Copyright ©  2022")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -39,6 +39,6 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
 
-//Copyright SimBlocks LLC 2021
+//Copyright SimBlocks LLC 2016-2022
 //https://www.simblocks.io/
 //The source code in this file is licensed under the MIT License. See the LICENSE text file for full terms.

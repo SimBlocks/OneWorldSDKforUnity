@@ -1,4 +1,4 @@
-//Copyright SimBlocks LLC 2021
+//Copyright SimBlocks LLC 2016-2022
 //https://www.simblocks.io/
 //The source code in this file is licensed under the MIT License. See the LICENSE text file for full terms.
 using System;
@@ -28,12 +28,19 @@ namespace sbio.owsdk.Providers.Bing
       public Settings()
       {
         APIKey = null;
+        retryCount = 0;
       }
 
       public string APIKey { get; set; }
+      public int retryCount { get; set; }
     }
 
     public Task QueryPointSamplesAsyncInto(ArraySegment<ElevationPointSample> points, CancellationToken tok)
+    {
+      return QueryPointSamplesAsyncInto(points, tok, 0);
+    }
+
+    public Task QueryPointSamplesAsyncInto(ArraySegment<ElevationPointSample> points, CancellationToken tok, int recCount)
     {
       return Task.Run(async () =>
       {
@@ -71,11 +78,19 @@ namespace sbio.owsdk.Providers.Bing
         }
         catch
         {
-          //On failure, zero out the points
-          for (var i = startIdx; i < endIdx; ++i)
+          //Some public bing keys are slow to respond
+          //Retry grabbing terrain a number of times specified in the json file
+          recCount++;
+          if (recCount < m_retryCount)
+            await QueryPointSamplesAsyncInto(points, tok, recCount);
+          else
           {
-            var pos = ary[i].Position;
-            ary[i] = new ElevationPointSample(pos, 0);
+            //On failure, zero out the points
+            for (var i = startIdx; i < endIdx; ++i)
+            {
+              var pos = ary[i].Position;
+              ary[i] = new ElevationPointSample(pos, 0);
+            }
           }
         }
       }, tok);
@@ -85,6 +100,7 @@ namespace sbio.owsdk.Providers.Bing
     {
       m_APIKey = settings.APIKey;
       m_PostRequestURL = string.Format(@"https://dev.virtualearth.net/REST/v1/Elevation/List?key={0}", m_APIKey);
+      m_retryCount = settings.retryCount;
     }
 
     private static bool CertificateValidationCallback(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
@@ -257,6 +273,7 @@ namespace sbio.owsdk.Providers.Bing
 
     private readonly string m_APIKey;
     private readonly string m_PostRequestURL;
+    private readonly int m_retryCount;
   }
 }
 

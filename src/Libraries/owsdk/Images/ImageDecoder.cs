@@ -1,4 +1,4 @@
-//Copyright SimBlocks LLC 2021
+//Copyright SimBlocks LLC 2016-2022
 //https://www.simblocks.io/
 //The source code in this file is licensed under the MIT License. See the LICENSE text file for full terms.
 using System;
@@ -92,9 +92,9 @@ namespace sbio.owsdk.Images
     /// <param name="width">Width of the decoded image</param>
     /// <param name="height">Height of the decoded image</param>
     /// <returns>true if pixelBuf is not null and has enough capacity for the image</returns>
-    public static bool DecodeInto(byte[] bytes, int[] pixelBuf, out int width, out int height)
+    public static bool DecodeInto(byte[] bytes, int[] pixelBuf, bool IsRaw, out int width, out int height)
     {
-      return DecodeInto(bytes, pixelBuf != null ? new ArraySegment<int>(pixelBuf) : default(ArraySegment<int>?), out width, out height);
+      return DecodeInto(bytes, pixelBuf != null ? new ArraySegment<int>(pixelBuf) : default(ArraySegment<int>?), IsRaw, out width, out height);
     }
 
     /// <summary>
@@ -105,9 +105,9 @@ namespace sbio.owsdk.Images
     /// <param name="width">Width of the decoded image</param>
     /// <param name="height">Height of the decoded image</param>
     /// <returns>true if pixelBuf is not null and has enough capacity for the image</returns>
-    public static bool DecodeInto(byte[] bytes, ArraySegment<int>? pixelBuf, out int width, out int height)
+    public static bool DecodeInto(byte[] bytes, ArraySegment<int>? pixelBuf, bool IsRaw, out int width, out int height)
     {
-      return DecodeInto(new ArraySegment<byte>(bytes), pixelBuf, out width, out height);
+      return DecodeInto(new ArraySegment<byte>(bytes), pixelBuf, IsRaw, out width, out height);
     }
 
     /// <summary>
@@ -128,9 +128,9 @@ namespace sbio.owsdk.Images
     /// <param name="width">Width of the decoded image</param>
     /// <param name="height">Height of the decoded image</param>
     /// <returns>true if pixelBuf is not null and has enough capacity for the image</returns>
-    public static bool DecodeInto(ArraySegment<byte> bytes, int[] pixelBuf, out int width, out int height)
+    public static bool DecodeInto(ArraySegment<byte> bytes, int[] pixelBuf, bool isRaw, out int width, out int height)
     {
-      return DecodeInto(bytes, pixelBuf != null ? new ArraySegment<int>(pixelBuf) : default(ArraySegment<int>?), out width, out height);
+      return DecodeInto(bytes, pixelBuf != null ? new ArraySegment<int>(pixelBuf) : default(ArraySegment<int>?), isRaw, out width, out height);
     }
 
     /// <summary>
@@ -141,14 +141,21 @@ namespace sbio.owsdk.Images
     /// <param name="width">Width of the decoded image</param>
     /// <param name="height">Height of the decoded image</param>
     /// <returns>true if pixelBuf is not null and has enough capacity for the image</returns>
-    public static bool DecodeInto(ArraySegment<byte> bytes, ArraySegment<int>? pixelBuf, out int width, out int height)
+    public static bool DecodeInto(ArraySegment<byte> bytes, ArraySegment<int>? pixelBuf, bool IsRaw, out int width, out int height)
     {
-      var imageType = GuessImageType(bytes);
+      var imageType = ImageType.RAW;
+      if(!IsRaw)
+        imageType = GuessImageType(bytes);
       switch (imageType)
       {
         case ImageType.PNG: return DecodePNGInto(bytes, pixelBuf, out width, out height);
         case ImageType.JPG: return DecodeJPGInto(bytes, pixelBuf, out width, out height);
         case ImageType.SGIRGB: return DecodeSGIRGBInto(bytes, pixelBuf, out width, out height);
+        case ImageType.RAW:
+          {
+            width = height = 256;
+            return DecodeRAWInto(bytes, pixelBuf);
+          }
         default:
           throw new NotImplementedException("Cannot handle image type '" + imageType + "'");
       }
@@ -411,6 +418,22 @@ namespace sbio.owsdk.Images
       return SGIRGBReader.Read(stream);
     }
 
+    private static bool DecodeRAWInto(ArraySegment<byte> bytes, ArraySegment<int>? pixels)
+    {
+      var buf = pixels.HasValue ? pixels.Value : default(ArraySegment<int>);
+      for (int y = 0; y < 256; y++)
+      {
+        var pBuf_yOff = (256 - 1 - y) * 256;
+        for (int x = 0; x < 256; x++)
+        {
+          var pBuf_xOff = 256 - 1 - x;
+          var bigBufOffset = buf.Offset + pBuf_yOff + pBuf_xOff;
+          var littleBufOffset = bytes.Offset + (pBuf_yOff + pBuf_xOff) * 3;
+          buf.Array[bigBufOffset] = (255 << 24) | (bytes.Array[littleBufOffset + 0] << 16) | (bytes.Array[littleBufOffset + 1] << 8) | (bytes.Array[littleBufOffset + 2]);
+        }
+      }
+      return true;
+    }
     private static bool DecodeSGIRGBInto(ArraySegment<byte> bytes, ArraySegment<int>? pixels, out int width, out int height)
     {
       using (var stream = new MemoryStream(bytes.Array, bytes.Offset, bytes.Count))
@@ -479,6 +502,10 @@ namespace sbio.owsdk.Images
       {
         return ImageType.SGIRGB;
       }
+      else if (buf.Count == 256 * 256 * 3)
+      {
+        return ImageType.RAW;
+      }
       else
       {
         throw new Exception("Unknown image type");
@@ -539,6 +566,6 @@ namespace sbio.owsdk.Images
 }
 
 
-//Copyright SimBlocks LLC 2021
+//Copyright SimBlocks LLC 2016-2022
 //https://www.simblocks.io/
 //The source code in this file is licensed under the MIT License. See the LICENSE text file for full terms.

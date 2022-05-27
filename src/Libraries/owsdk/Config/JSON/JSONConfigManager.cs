@@ -1,4 +1,4 @@
-//Copyright SimBlocks LLC 2021
+//Copyright SimBlocks LLC 2016-2022
 //https://www.simblocks.io/
 //The source code in this file is licensed under the MIT License. See the LICENSE text file for full terms.
 using System;
@@ -149,11 +149,12 @@ namespace sbio.owsdk.Config.JSON
     public FileInfo SystemConfigFile { get; private set; }
     public FileInfo LocalConfigFile { get; private set; }
     public FileInfo UserConfigFile { get; private set; }
+    public FileInfo SceneConfigFile { get; private set; }
     public string AppName { get; private set; }
     public string CompanyName { get; private set; }
     public string ProductName { get; private set; }
 
-    public JSONConfigManager(DirectoryInfo installDir, string app, string company = null, string product = null)
+    public JSONConfigManager(DirectoryInfo installDir, string app, string scene, string company = null, string product = null)
     {
       if (installDir == null)
       {
@@ -165,7 +166,6 @@ namespace sbio.owsdk.Config.JSON
         throw new ArgumentException("cannot be null or empty", nameof(app));
       }
 
-
       InstallDir = new DirectoryInfo(Path.GetFullPath(installDir.FullName));
       DataDir = new DirectoryInfo(CombinePath(InstallDir.FullName, sc_DataDirName));
       AppName = FixAndCheckName(app, "app");
@@ -174,6 +174,7 @@ namespace sbio.owsdk.Config.JSON
 
       var appConfigFileNameAndExt = AppName + sc_ConfigFileExt;
       var localConfigFileNameAndExt = AppName + sc_LocalConfigFileExt;
+      var sceneConfigFileNameAndExt = scene + sc_ConfigFileExt;
 
       var systemDataDir = DataDir;
       var userDataDir = new DirectoryInfo(CombinePath(
@@ -210,6 +211,10 @@ namespace sbio.owsdk.Config.JSON
       UserConfigFile = new FileInfo(CombinePath(
         userDataDir.FullName
         , appConfigFileNameAndExt));
+
+      SceneConfigFile = new FileInfo(CombinePath(
+        systemDataDir.FullName
+        , sceneConfigFileNameAndExt));
 
       m_CachedFile = new JObject();
 
@@ -248,6 +253,21 @@ namespace sbio.owsdk.Config.JSON
       if (UserConfigFile.Exists)
       {
         using (var sr = UserConfigFile.OpenText())
+        using (var jsonReader = new JsonTextReader(sr))
+        {
+          try
+          {
+            m_CachedFile.Merge(JToken.ReadFrom(jsonReader), mergeHandling);
+          }
+          catch (JsonReaderException)
+          {
+          }
+        }
+      }
+
+      if (SceneConfigFile.Exists)
+      {
+        using (var sr = SceneConfigFile.OpenText())
         using (var jsonReader = new JsonTextReader(sr))
         {
           try
@@ -300,6 +320,6 @@ namespace sbio.owsdk.Config.JSON
 }
 
 
-//Copyright SimBlocks LLC 2021
+//Copyright SimBlocks LLC 2016-2022
 //https://www.simblocks.io/
 //The source code in this file is licensed under the MIT License. See the LICENSE text file for full terms.

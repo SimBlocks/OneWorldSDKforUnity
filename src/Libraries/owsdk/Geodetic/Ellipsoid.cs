@@ -1,4 +1,4 @@
-//Copyright SimBlocks LLC 2021
+//Copyright SimBlocks LLC 2016-2022
 //https://www.simblocks.io/
 //The source code in this file is licensed under the MIT License. See the LICENSE text file for full terms.
 using System;
@@ -427,12 +427,12 @@ namespace sbio.owsdk.Geodetic
     /// <returns>The geoposition and height offset of the given global position</returns>
     public Geodetic3d ToGeodetic3d(Vec3LeftHandedGeocentric position, out Vec3LeftHandedGeocentric normal)
     {
-       var p = ScaleToGeodeticSurface(position);
-       var h = position - p;
-       var height = Math.Sign(h.Dot(position)) * h.Magnitude;
+      var p = ScaleToGeodeticSurface(position);
+      var h = position - p;
+      var height = Math.Sign(h.Dot(position)) * h.Magnitude;
 
-       normal = SurfacePointGeodeticSurfaceNormal(p);
-       var localNormal = ToLocal(normal);
+      normal = SurfacePointGeodeticSurfaceNormal(p);
+      var localNormal = ToLocal(normal);
       return ToGeodetic3d(position);
     }
 

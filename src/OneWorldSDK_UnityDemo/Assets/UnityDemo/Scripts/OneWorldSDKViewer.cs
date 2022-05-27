@@ -1,4 +1,4 @@
-//Copyright SimBlocks LLC 2021
+//Copyright SimBlocks LLC 2016-2022
 //https://www.simblocks.io/
 //The source code in this file is licensed under the MIT License. See the LICENSE text file for full terms.
 using System;
@@ -17,9 +17,12 @@ using sbio.owsdk.Providers.SQL;
 using sbio.owsdk.Providers.WebServices;
 using sbio.owsdk.Utilities;
 using sbio.owsdk.WMS;
+using sbio.Core.Math;
 using UnityEngine;
 using sbio.owsdk.Unity;
 using sbio.owsdk;
+using UnityEngine.SceneManagement;
+
 
 namespace sbio.OneWorldSDKViewer
 {
@@ -52,8 +55,11 @@ namespace sbio.OneWorldSDKViewer
         projectRootDir = new DirectoryInfo(Path.Combine(Application.dataPath, "../../../"));
       }
 
+      Scene scene = SceneManager.GetActiveScene();
+
       m_Config = new JSONConfigManager(projectRootDir
         , app: AppName
+        , scene.name
         , company: CompanyName
         , product: ProductName);
 
@@ -69,6 +75,8 @@ namespace sbio.OneWorldSDKViewer
 
     private void OnDestroy()
     {
+      m_ModuleInitialized = false;
+
       if (m_LoadingTask != null)
       {
         m_LoadingTokenSource.Cancel();
@@ -338,6 +346,7 @@ namespace sbio.OneWorldSDKViewer
           };
         }
       }
+      m_ModuleInitialized = true;
     }
 
     private ITerrainTileProvider BuildTerrainProvider(IConfigValue config)
@@ -624,6 +633,7 @@ namespace sbio.OneWorldSDKViewer
         {
           var settings = BingElevationProvider.Settings.Default;
           settings.APIKey = options.GetString("apiKey", settings.APIKey);
+          settings.retryCount = options.GetInt("retryCount", settings.retryCount);
           return new BingElevationProvider(settings);
         }
         case "sql":
@@ -808,6 +818,7 @@ namespace sbio.OneWorldSDKViewer
 
     private Stack<IDisposable> m_Disposables;
     private JSONConfigManager m_Config;
+    private bool m_ModuleInitialized = false;
   }
 }
 

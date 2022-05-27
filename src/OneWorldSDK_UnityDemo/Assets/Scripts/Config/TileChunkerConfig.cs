@@ -1,4 +1,4 @@
-//Copyright SimBlocks LLC 2021
+//Copyright SimBlocks LLC 2016-2022
 //https://www.simblocks.io/
 //The source code in this file is licensed under the MIT License. See the LICENSE text file for full terms.
 using System;
@@ -21,6 +21,7 @@ namespace sbio.owsdk.Unity.Config
     public int AtlasTileSize = 16;
     public float ResolutionDistanceBias = 1.0f;
     public bool CompressTextures = true;
+    public bool UseRawImage = false;
 
     #endregion
 
@@ -35,13 +36,14 @@ namespace sbio.owsdk.Unity.Config
       LoadFrameBudget = LoadFrameBudget,
       AtlasTileSize = AtlasTileSize,
       CompressTextures = CompressTextures,
-      ResolutionDistanceBias = ResolutionDistanceBias
+      ResolutionDistanceBias = ResolutionDistanceBias,
+      UseRawImage = UseRawImage
     };
   }
 }
 
 
 
-//Copyright SimBlocks LLC 2021
+//Copyright SimBlocks LLC 2016-2022
 //https://www.simblocks.io/
 //The source code in this file is licensed under the MIT License. See the LICENSE text file for full terms.

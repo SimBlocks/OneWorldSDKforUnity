@@ -1,4 +1,4 @@
-//Copyright SimBlocks LLC 2021
+//Copyright SimBlocks LLC 2016-2022
 //https://www.simblocks.io/
 //The source code in this file is licensed under the MIT License. See the LICENSE text file for full terms.
 using System;
@@ -204,7 +204,7 @@ namespace sbio.owsdk.Providers
           samples[yOff + xOff] = new ElevationPointSample(TileMapper.PixelXYToGeo(tileIndex.Level, xPx, yPx));
         }
       }
-
+      
       // append extra column
       int i = m_NumSamples * m_NumSamples;
       xPx = (int)((txPx + tilePixelWidth + xDeltaPx)) % mapPixelWidth;
@@ -212,7 +212,7 @@ namespace sbio.owsdk.Providers
       {
         yPx = (int)((tyPx + yDeltaPx * y));
         samples[i++] = new ElevationPointSample(TileMapper.PixelXYToGeo(tileIndex.Level, xPx, yPx));
-        }
+      }
 
       // and then append extra row
       yPx = (int)((tyPx + tilePixelHeight + yDeltaPx));
@@ -221,7 +221,7 @@ namespace sbio.owsdk.Providers
         xPx = (int)((txPx + xDeltaPx * x)) % mapPixelWidth; //wrap around longitude
         samples[i++] = new ElevationPointSample(TileMapper.PixelXYToGeo(tileIndex.Level, xPx, yPx));
       }
-      }
+    }
 
     private Vector3f TransformVertex(Geodetic2d coordGeo, double elevation, QuaternionLeftHandedGeocentric rotationInv, Vec3LeftHandedGeocentric meshOrigin3d)
     {
