@@ -69,7 +69,7 @@
 	  //Number of times to retry fetching elevation data
 	  //If using a public bing key, try setting this number
 	  //significantly higher for better elevation results
-	  "retryCount": 20
+	  "retryCount": 50
     }
   },
 
