@@ -1,39 +1,51 @@
 set currentDir=%cd%
-set "pathFrom=%~dp0\Bin\"
-set "pathTo=%~dp0\src\OneWorldSDK_UnityDemo\Assets\Plugins\"
+if "%1%"=="release" (set mode=Release& set d=) else (set mode=Debug& set d=d)
+set "pathFrom_Managed=%~dp0\Bin\"
+set "pathToUnity=%~dp0\src\OneWorldSDK_UnityDemo\Assets\Plugins\"
+
+REM CREATE FOLDERS FOR UNITY
+if not exist "%pathToUnity%windows-x64\" mkdir "%pathToUnity%windows-x64\"
 
 REM COPY DEPENDENCIES
-copy /y "%pathFrom%Newtonsoft.Json.dll" "%pathTo%"
-copy /y "%pathFrom%Pngcs.dll" "%pathTo%"
-copy /y "%pathFrom%gdal_csharp.dll" "%pathTo%"
-copy /y "%pathFrom%BitMiracle.LibJpeg.NET.dll" "%pathTo%"
-copy /y "%pathFrom%ogr_csharp.dll" "%pathTo%"
-copy /y "%pathFrom%x86\SQLite.Interop.dll" "%pathTo%windows-x86\"
-copy /y "%pathFrom%x64\SQLite.Interop.dll" "%pathTo%windows-x64\"
-copy /y "%pathFrom%DotSpatial.Projections.dll" "%pathTo%"
-copy /y "%pathFrom%osr_csharp.dll" "%pathTo%"
-copy /y "%pathFrom%OsmSharp.dll" "%pathTo%"
-copy /y "%pathFrom%OsmSharp.dll" "%pathTo%"
-copy /y "%pathFrom%Npgsql.dll" "%pathTo%"
-copy /y "%pathFrom%..\src\Libraries\packages\protobuf-net.2.3.7\lib\net40\protobuf-net.dll" "%pathTo%"
-copy /y "%pathFrom%NetTopologySuite.dll" "%pathTo%"
-copy /y "%pathFrom%BruTile.dll" "%pathTo%"
-copy /y "%pathFrom%Microsoft.Bcl.AsyncInterfaces.dll" "%pathTo%"
-copy /y "%pathFrom%Npgsql.dll" "%pathTo%"
+copy /y "%pathFrom_Managed%Newtonsoft.Json.dll" "%pathToUnity%"
+copy /y "%pathFrom_Managed%Pngcs.dll" "%pathToUnity%"
+copy /y "%pathFrom_Managed%gdal_csharp.dll" "%pathToUnity%"
+copy /y "%pathFrom_Managed%BitMiracle.LibJpeg.NET.dll" "%pathToUnity%"
+copy /y "%pathFrom_Managed%ogr_csharp.dll" "%pathToUnity%"
+copy /y "%pathFrom_Managed%x64\SQLite.Interop.dll" "%pathToUnity%windows-x64\"
+copy /y "%pathFrom_Managed%DotSpatial.Projections.dll" "%pathToUnity%"
+copy /y "%pathFrom_Managed%osr_csharp.dll" "%pathToUnity%"
+copy /y "%pathFrom_Managed%OsmSharp.dll" "%pathToUnity%"
+copy /y "%pathFrom_Managed%Npgsql.dll" "%pathToUnity%"
+copy /y "%pathFrom_Managed%..\src\Libraries\packages\NETStandard.Library.2.0.3\build\netstandard2.0\ref\System.Runtime.InteropServices.RuntimeInformation.dll" "%pathToUnity%"
+copy /y "%pathFrom_Managed%..\src\Libraries\packages\protobuf-net.2.3.7\lib\net40\protobuf-net.dll" "%pathTo%"
+copy /y "%pathFrom_Managed%NetTopologySuite.dll" "%pathToUnity%"
+copy /y "%pathFrom_Managed%BruTile.dll" "%pathToUnity%"
+copy /y "%pathFrom_Managed%Microsoft.Bcl.AsyncInterfaces.dll" "%pathToUnity%"
+copy /y "%pathFrom_Managed%Npgsql.dll" "%pathToUnity%"
 
-copy /y "%pathFrom%System.*.dll" "%pathTo%"
-del "%pathTo%System.Net.Http.dll"
+copy /y "%pathFrom_Managed%System.Buffers.dll" "%pathToUnity%"
+copy /y "%pathFrom_Managed%System.Data.Common.dll" "%pathToUnity%"
+copy /y "%pathFrom_Managed%System.Data.SQLite.dll" "%pathToUnity%"
+copy /y "%pathFrom_Managed%System.Diagnostics.StackTrace.dll" "%pathToUnity%"
+copy /y "%pathFrom_Managed%System.Diagnostics.Tracing.dll" "%pathToUnity%"
+copy /y "%pathFrom_Managed%System.Globalization.Extensions.dll" "%pathToUnity%"
+copy /y "%pathFrom_Managed%System.IO.Compression.dll" "%pathToUnity%"
+copy /y "%pathFrom_Managed%System.Memory.dll" "%pathToUnity%"
+copy /y "%pathFrom_Managed%System.Net.Sockets.dll" "%pathToUnity%"
+copy /y "%pathFrom_Managed%System.Numerics.Vectors.dll" "%pathToUnity%"
+copy /y "%pathFrom_Managed%System.Runtime.CompilerServices.Unsafe.dll" "%pathToUnity%"
+copy /y "%pathFrom_Managed%System.Runtime.Serialization.Primitives.dll" "%pathToUnity%"
+copy /y "%pathFrom_Managed%System.Text.Encodings.Web.dll" "%pathToUnity%"
+copy /y "%pathFrom_Managed%System.Text.Json.dll" "%pathToUnity%"
+copy /y "%pathFrom_Managed%System.Threading.Overlapped.dll" "%pathToUnity%"
+copy /y "%pathFrom_Managed%System.Threading.Tasks.Extensions.dll" "%pathToUnity%"
+copy /y "%pathFrom_Managed%System.ValueTuple.dll" "%pathToUnity%"
+copy /y "%pathFrom_Managed%System.Xml.XPath.XDocument.dll" "%pathToUnity%"
 
-copy /y "%pathFrom%sbioMath.dll" "%pathTo%"
-copy /y "%pathFrom%sbioMath.pdb" "%pathTo%"
+if exist "%pathToUnity%System.Net.Http.dll" del "%pathToUnity%System.Net.Http.dll"
 
-copy /y "%pathFrom%sbioOneWorldSDK.dll" "%pathTo%"
+copy /y "%pathFrom_Managed%sbioMath.dll" "%pathToUnity%"
+copy /y "%pathFrom_Managed%sbioMath.pdb" "%pathToUnity%"
 
-REM CONVERT PDBs TO MDBs
-cd %pathFrom%
-pdb2mdb.exe sbioOneWorldSDK.dll
-pdb2mdb.exe sbioMath.dll
-cd %currentDir%
-
-copy /y "%pathFrom%sbioOneWorldSDK.dll.mdb" "%pathTo%"
-copy /y "%pathFrom%sbioMath.dll.mdb" "%pathTo%"
+copy /y "%pathFrom_Managed%sbioOneWorldSDK.dll" "%pathToUnity%"
